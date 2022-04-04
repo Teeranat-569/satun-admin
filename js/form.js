@@ -2,6 +2,7 @@
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const url = 'localhost';
+  var bool = false;
   var firebaseConfig = {
     // apiKey: "AIzaSyBkcLrQaixp8dhiMrNfrWdJ52nyadLS4cU",
     // authDomain: "login-demo-254f7.firebaseapp.com",
@@ -39,6 +40,7 @@
       'You clicked the button!',
       'success'
   )
+  bool = true;
   }
 
   //signIN function
@@ -48,8 +50,13 @@
     const promise = auth.signInWithEmailAndPassword(email.value,password.value);
     promise.catch(e=>alert(e.message));
 
-   
-    
+    window.location = "admin.html";
+       Swal.fire(
+        'เข้าสู่ระบบสำเร็จ!',
+        '',
+        ''
+    )
+    bool = true;
   }
 
 
@@ -57,7 +64,10 @@
 
   function signOut(){
     auth.signOut();
-    alert("SignOut Successfully from System");
+    alert("ต้องการออกจากระบบหรือไม่?");
+    bool
+    window.location = "index.html";
+
   }
 
   //active user to homepage
@@ -65,12 +75,12 @@
     if(user){
       var email = user.email;
       // alert("Active user "+email);
-      Swal.fire(
-        'Good job!',
-        'You clicked the button!',
-        'success'
-    )
-    window.location = "admin.html";
+    //   Swal.fire(
+    //     'Good job!',
+    //     'You clicked the button!',
+    //     'success'
+    // )
+   
 
     }else{
       // alert("")
@@ -79,6 +89,7 @@
         title: 'Oops...',
         text: 'ไม่พบการเข้าสู่ระบบ'
     })
+    bool
     }
-    
+
   })
