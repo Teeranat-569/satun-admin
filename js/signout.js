@@ -59,32 +59,32 @@
     auth.signOut();
     alert("ต้องการออกจากระบบหรือไม่?");
     window.location = "index.html";
-    // Swal.fire(
-    //             'ออกจากระบบแล้ว',
-    //             '',
-    //             ''
-    //         )
+    Swal.fire(
+                'ออกจากระบบแล้ว',
+                '',
+                ''
+            )
   }
 
-  //active user to homepage
-//   firebase.auth().onAuthStateChanged((user)=>{
-//     if(user){
-//       var email = user.email;
-//       // alert("Active user "+email);
-//       Swal.fire(
-//         'Good job!',
-//         'You clicked the button!',
-//         'success'
-//     )
-//     window.location = "admin.html";
+  // active user to homepage
+  firebase.auth().onAuthStateChanged((user)=>{
+    if(user){
+      var email = user.email;
+      // window.location = "admin.html";// alert("Active user "+email);
+      Swal.fire(
+        'Good job!',
+        'You clicked the button!',
+        'success'
+    )
+      }
 
-//     }else{
-//       // alert("")
-//       Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: 'ไม่พบการเข้าสู่ระบบ'
-//     })
-//     }
+    // }else{
+    //   // alert("")
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Oops...',
+    //     text: 'ไม่พบการเข้าสู่ระบบ'
+    // })
+    // }
     
-//   })
+  })

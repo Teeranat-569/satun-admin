@@ -50,13 +50,14 @@
     const promise = auth.signInWithEmailAndPassword(email.value,password.value);
     promise.catch(e=>alert(e.message));
 
-    window.location = "admin.html";
+   
        Swal.fire(
         'เข้าสู่ระบบสำเร็จ!',
         '',
         ''
     )
-    bool = true;
+    window.location = "admin.html";
+    bool = true; 
   }
 
 
@@ -81,7 +82,11 @@
     //     'success'
     // )
    
-
+    Swal.fire(
+      'เข้าสู่ระบบสำเร็จ!',
+      '',
+      ''
+  )
     }else{
       // alert("")
       Swal.fire({
@@ -89,7 +94,9 @@
         title: 'Oops...',
         text: 'ไม่พบการเข้าสู่ระบบ'
     })
-    bool
+
+    // window.location = "index.html";
+bool
     }
 
   })
