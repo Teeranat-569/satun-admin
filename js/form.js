@@ -1,17 +1,8 @@
 
+
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const url = 'localhost';
-  var bool = false;
   var firebaseConfig = {
-    // apiKey: "AIzaSyBkcLrQaixp8dhiMrNfrWdJ52nyadLS4cU",
-    // authDomain: "login-demo-254f7.firebaseapp.com",
-    // projectId: "login-demo-254f7",
-    // storageBucket: "login-demo-254f7.appspot.com",
-    // messagingSenderId: "228883805517",
-    // appId: "1:228883805517:web:db9063121d6bf3a79ab304",
-    // measurementId: "G-C8Q2HYKHY1"
-
     apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
     authDomain: "stuncity-24791.firebaseapp.com",
     databaseURL: "https://stuncity-24791.firebaseio.com",
@@ -23,80 +14,94 @@
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+ firestore = firebase.firestore()
 
-  const auth =  firebase.auth();
-
-  //signup function
-  function signUp(){
-    var email = document.getElementById("email");
-    var password = document.getElementById("password");
-
-    const promise = auth.createUserWithEmailAndPassword(email.value,password.value);
-    //
-    promise.catch(e=>alert(e.message));
-    // alert("SignUp Successfully");
-    Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
-  )
-  bool = true;
+  function name() {
+    firestore.collection("test").add({ 
+    item: "Nendoroid",
+    name: "Hatsune Miku",
+    id: 33,
+    available: true
+});
   }
+ 
+//   const auth =  firebase.auth();
 
-  //signIN function
-  function  signIn(){
-    var email = document.getElementById("email");
-    var password  = document.getElementById("password");
-    const promise = auth.signInWithEmailAndPassword(email.value,password.value);
-    promise.catch(e=>alert(e.message));
+//   //signup function
+//   function signUp(){
+//     var email = document.getElementById("email");
+//     var password = document.getElementById("password");
+
+//     const promise = auth.createUserWithEmailAndPassword(email.value,password.value);
+//     //
+//     promise.catch(e=>alert(e.message));
+//     // alert("SignUp Successfully");
+//     Swal.fire(
+//       'Good job!',
+//       'You clicked the button!',
+//       'success'
+//   )
+//   bool = true;
+//   }
+
+//   //signIN function
+//   function  signIn(){
+//     var email = document.getElementById("email");
+//     var password  = document.getElementById("password");
+//     const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+//     promise.catch(e=>alert(e.message));
 
    
-       Swal.fire(
-        'เข้าสู่ระบบสำเร็จ!',
-        '',
-        ''
-    )
-    window.location = "admin.html";
-    bool = true; 
-  }
+//        Swal.fire(
+//         'เข้าสู่ระบบสำเร็จ!',
+//         '',
+//         ''
+//     )
+//     window.location = "home.html";
+//   }
 
 
-  //signOut
+//   //signOut
 
-  function signOut(){
-    auth.signOut();
-    alert("ต้องการออกจากระบบหรือไม่?");
-    bool
-    window.location = "index.html";
+//   function signOut(){
+//     auth.signOut();
+//     alert("ต้องการออกจากระบบหรือไม่?");
+//     window.location = "index.html";
 
-  }
+//   }
 
-  //active user to homepage
-  firebase.auth().onAuthStateChanged((user)=>{
-    if(user){
-      var email = user.email;
-      // alert("Active user "+email);
-    //   Swal.fire(
-    //     'Good job!',
-    //     'You clicked the button!',
-    //     'success'
-    // )
+//   //active user to homepage
+//   firebase.auth().onAuthStateChanged((user)=>{
+//     if(user){
+//       var email = user.email;
+//       // alert("Active user "+email);
+//     //   Swal.fire(
+//     //     'Good job!',
+//     //     'You clicked the button!',
+//     //     'success'
+//     // )
    
-    Swal.fire(
-      'เข้าสู่ระบบสำเร็จ!',
-      '',
-      ''
-  )
-    }else{
-      // alert("")
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'ไม่พบการเข้าสู่ระบบ'
-    })
+//     Swal.fire(
+//       'เข้าสู่ระบบสำเร็จ!',
+//       '',
+//       ''
+//   )
+//     }else{
+    
+      
 
-    // window.location = "index.html";
-bool
-    }
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'ไม่พบการเข้าสู่ระบบ'
+//     })
+//   // if (window.location = "home.html"
+//   //     ) {
+      
+//   //     }
+//   //     else{}
+//     // window.location = "index.html";
+// // bool
+//     }
 
-  })
+  // })

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มข้อมูลสถานที่ท่องเที่ยว</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/3e2cc3644f.js" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#includedContent").load("./menu.html");
+        });
+    </script>
+</head>
+<style>
+    body {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    tr:hover {
+        background-color: #e7e2e2
+    }
+</style>
+
+<body>
+    <div id="includedContent"></div>
+
+    <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
+        <h2>เพิ่มข้อมูลสถานที่ท่องเที่ยว</h2>
+        <hr>
+        <div id="form">
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <label for="InputTravel">ชื่อสถานที่ท่องเที่ยว&nbsp;<span
+                                    style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="InputTravel" placeholder="ชื่อสถานที่ท่องเที่ยว"
+                                required>
+                        </div>
+                        <div class="col">
+                            <label for="exampleFormControlSelect1">หมวดหมู่สถานที่ท่องเที่ยว&nbsp;<span
+                                    style="color: red;">*</span></label>
+                            <select class="form-control" id="exampleFormControlSelect1" required>
+                                <option selected>Choose...</option>
+
+                                <option>ทะเล</option>
+                                <option>ภูเขา</option>
+                                <option>น้ำตก</option>
+                                <option>ศาสนสถาน</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <label for="inputDetail">ลักษณะเด่น&nbsp;<span style="color: red;">*</span></label>
+                            <textarea class="form-control" aria-label="With textarea" required></textarea>
+
+                            <!-- <input type="text" class="form-control" id="inputDetail" placeholder="ลักษณะเด่น"> -->
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <label for="file_upload">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
+                            <input type="file" class="form-control-file" id="file_upload" accept="image/*"
+                                onchange="loadFile(event)" required>
+
+                            <div style="display: none;" id="oppp">
+                                <img id="output" height="150px" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- <h4 id="upload_status"></h4> -->
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <label for="inputMap">พิกัด&nbsp;<span style="color: red;">*</span></label>
+
+                            <input type="text" class="form-control" id="inputMap" placeholder="พิกัด" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="someImageTagID"></div>
+                    <br>
+                    <button type="" class="btn btn-primary" id="save">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
+            authDomain: "stuncity-24791.firebaseapp.com",
+            databaseURL: "https://stuncity-24791.firebaseio.com",
+            projectId: "stuncity-24791",
+            storageBucket: "stuncity-24791.appspot.com",
+            messagingSenderId: "281522763629",
+            appId: "1:281522763629:web:6f1f883f99307fa3740c64",
+            measurementId: "G-4538TQL69P"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // -----------------------------------------------
+        const db = firebase.firestore()
+        const save = document.querySelector("#save");
+        save.addEventListener("click", function () {
+            db.collection("test").add({
+                first: "Ada",
+                last: "Lovelace",
+                born: 1815
+            })
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+        })
+        // ---------------------------------------------------------
+
+        function loadFile(n) {
+            var output = document.getElementById('output');
+            var output2 = document.getElementById('oppp');
+            output2.style.display = "block";
+            output.src = URL.createObjectURL(n.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+                console.log('ffffffffffffffsssssssssss', output.src);
+
+            }
+
+        };
+
+        $("#file_upload").on("change", function (event) { //กำหนดชุดคำสั่งเมื่อเลือกไฟล์
+           
+            
+
+        })
+
+
+
+        save.addEventListener("click", function (event) {
+
+
+
+var file = event.target.files[0]; //เก็บ object file ไว้ในตัวแปร file
+
+            // var file = output.src;
+            console.log('ffffffffffffffffffff', file);
+            // if (file == null)//ถ้า object file เป็น null ให้ ออกจาก function
+            // {
+            //    return ;
+            // }
+
+
+var file_ref = firebase.storage().ref("kk/" + file.name);//สร้าง file ใน firebase
+            console.log('sssssssssssssssssssss', file.name);
+
+            console.log('mmmmmmmmmmmmmm', file_ref);
+            var task = file_ref.put(file);// upload file เข้าไปใน firebase
+            console.log('wwwwwwwwwwwwwwwww', task);
+
+            //กำหนดชุดคำสั่งให้ทำงานเมื่อมีการเปลี่ยนสถานะ
+            task.on("state_changed",
+
+                function progress(snapshot) {//แสดง percent ความก้าวหน้าเมื่อ upload
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: 'Display this alert in top right corner',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                },
+                function err(err) { //กำหนดชุดคำสั่งให้ทำงานเมื่อ upload  error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error' + err
+                    })
+                },
+                function complete() { //กำหนดชุดคำสั่ง เมื่อ Upload เสร็จแล้ว
+
+                    // $("#upload_status").html("");//ซ่อน % ความก้าวหน้า เมื่อ Upload เสร็จแล้ว
+                    $("#file_upload").val("");//ให้ input file เป็นค่าว่าง
+                    //แสดงรูปภาพที่ เพิ่ง Upload
+                    // หา URL ของ ไฟล์รูปที่เพิ่ง Upload
+                    firebase.storage().ref("kk/" + file.name).getDownloadURL().then(function (url) {
+                        //แสดงรูปภาพใน <h4 id="upload_status"></h4>                
+                        var img = document.createElement("img");
+                        $(img).prop("src", url);
+                        console.log('kkkkkkkkkkkkkkkkkkkkkk', url);
+                        // $("#upload_status").html(img);
+
+                    });
+                    Swal.fire(
+                        'Good job!',
+                        'You clicked the button!',
+                        'success'
+                    )
+
+                },
+
+            );
+
+
+
+        })
+
+
+
+        // --------------------------------------------------------------------
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                // ...
+                console.log("Signin ", uid);                // ...
+
+            } else {
+                // User is signed out
+                // ...
+                console.log("User is signed out");                // ...
+                // window.location = "home.html";
+
+            }
+        });
+
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>
