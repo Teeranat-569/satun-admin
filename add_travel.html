@@ -40,19 +40,23 @@
         <h2>เพิ่มข้อมูลสถานที่ท่องเที่ยว</h2>
         <hr>
         <div id="form">
-            <form>
+
+
+
+            <form action="" id="hh" onchange="" >
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
                             <label for="InputTravel">ชื่อสถานที่ท่องเที่ยว&nbsp;<span
                                     style="color: red;">*</span></label>
-                            <input type="text" class="form-control" id="InputTravel" placeholder="ชื่อสถานที่ท่องเที่ยว"
-                                required>
+                            <input type="text" class="form-control" id="InputTravel"
+                                placeholder="ชื่อสถานที่ท่องเที่ยว">
                         </div>
                         <div class="col">
                             <label for="exampleFormControlSelect1">หมวดหมู่สถานที่ท่องเที่ยว&nbsp;<span
                                     style="color: red;">*</span></label>
-                            <select class="form-control" id="exampleFormControlSelect1" required>
+                            <select class="form-control" id="exampleFormControlSelect1">
                                 <option selected>Choose...</option>
 
                                 <option>ทะเล</option>
@@ -67,40 +71,37 @@
                     <div class="row">
                         <div class="col">
                             <label for="inputDetail">ลักษณะเด่น&nbsp;<span style="color: red;">*</span></label>
-                            <textarea class="form-control" aria-label="With textarea" required></textarea>
-
-                            <!-- <input type="text" class="form-control" id="inputDetail" placeholder="ลักษณะเด่น"> -->
+                            <textarea class="form-control" aria-label="With textarea" id="inputDetail"></textarea>
                         </div>
                     </div>
-                    <br>
-                    <div class="row">
-                        <div class="col">
-                            <label for="file_upload">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
-                            <input type="file" class="form-control-file" id="file_upload" accept="image/*"
-                                onchange="loadFile(event)" required>
-
-                            <div style="display: none;" id="oppp">
-                                <img id="output" height="150px" />
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- <h4 id="upload_status"></h4> -->
                     <br>
                     <div class="row">
                         <div class="col">
                             <label for="inputMap">พิกัด&nbsp;<span style="color: red;">*</span></label>
-
-                            <input type="text" class="form-control" id="inputMap" placeholder="พิกัด" required>
+                            <input type="text" class="form-control" id="inputMap" placeholder="พิกัด">
                         </div>
                     </div>
                     <br>
-                    <div id="someImageTagID"></div>
-                    <br>
-                    <button type="" class="btn btn-primary" id="save">Submit</button>
+                    <div class="row">
+                        <div class="col">
+                            <label for="files">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
+                            <input type="file" onchange="loadFile(event)" id="files" />
+                            <br>
+                            <div style="display: none; margin-top: 10px;" id="oppp">
+                                <img id="output" height="250px" />
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
+                <!-- <button type="button" class="btn btn-primary" onclick="" id="save" >Submit</button> -->
 
             </form>
+
+            <br>
+
+            <button type="submit" class="btn btn-primary" onclick="" id="save">Submit</button>
         </div>
     </div>
     <script>
@@ -119,21 +120,126 @@
         // -----------------------------------------------
         const db = firebase.firestore()
         const save = document.querySelector("#save");
+        const upload = document.querySelector("#upload");
+        var InputTravel = document.getElementById("InputTravel");
+        var exampleFormControlSelect1 = document.getElementById("exampleFormControlSelect1");
+        var inputDetail = document.getElementById("inputDetail");
+        var inputMap = document.getElementById("inputMap");
+
         save.addEventListener("click", function () {
-            db.collection("test").add({
-                first: "Ada",
-                last: "Lovelace",
-                born: 1815
-            })
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    console.error("Error adding document: ", error);
+            console.log("lllllllllllllllllllllllllllllll", InputTravel.value);
+            console.log("lllllllllllllllllllllllllllllll", exampleFormControlSelect1.value);
+            console.log("lllllllllllllllllllllllllllllll", inputDetail.value);
+            console.log("lllllllllllllllllllllllllllllll", inputMap.value);
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            var storageRef = firebase.storage().ref();
+            // Get the file from DOM
+            var file = document.getElementById("files").files[0];
+            console.log(file);
+            //dynamically set reference to the file name
+            var thisRef = storageRef.child("travel/travel_" + file.name);
+            //put request upload file to firebase storage
+            thisRef.put(file).then(function (snapshot) {
+                firebase.storage().ref("travel/travel_" + file.name).getDownloadURL().then(function (url) {
+                    console.log('tttttttttttttttt' + url);
+                    console.log("lllllllllllllllllllllllllllllll", InputTravel.value);
+                    console.log("lllllllllllllllllllllllllllllll", exampleFormControlSelect1.value);
+                    console.log("lllllllllllllllllllllllllllllll", inputDetail.value);
+                    console.log("lllllllllllllllllllllllllllllll", inputMap.value);
+                    console.log("lllllllllllllllllllllllllllllll", url);
+                    if (exampleFormControlSelect1.value == 'ทะเล') {
+                        db.collection("travel").doc().set({
+                            travelName: InputTravel.value,
+                            travelCate: exampleFormControlSelect1.value,
+                            positive: inputDetail.value,
+                            travel_map: inputMap.value,
+                            pic: url,
+                        })
+                            .then(() => {
+                                console.log("Document successfully written!");
+                                Swal.fire(
+                                    'Good job!',
+                                    'บันทึกข้อมูลเรียบร้อย',
+                                    'success'
+                                )
+                            })
+                            .catch((error) => {
+                                console.error("Error writing document: ", error);
+                            });
+                    }
+                    if (exampleFormControlSelect1.value == 'ภูเขา') {
+                        db.collection("travel_mountain").doc().set({
+                            travelName: InputTravel.value,
+                            travelCate: exampleFormControlSelect1.value,
+                            positive: inputDetail.value,
+                            travel_map: inputMap.value,
+                            pic: url,
+                        })
+                            .then(() => {
+                                console.log("Document successfully written!");
+                                Swal.fire(
+                                    'Good job!',
+                                    'บันทึกข้อมูลเรียบร้อย',
+                                    'success'
+                                )
+                            })
+                            .catch((error) => {
+                                console.error("Error writing document: ", error);
+                            });
+                    }
+                    if (exampleFormControlSelect1.value == 'น้ำตก') {
+                        db.collection("travel_waterfall").doc().set({
+                            travelName: InputTravel.value,
+                            travelCate: exampleFormControlSelect1.value,
+                            positive: inputDetail.value,
+                            travel_map: inputMap.value,
+                            pic: url,
+                        })
+                            .then(() => {
+                                console.log("Document successfully written!");
+                                Swal.fire(
+                                    'Good job!',
+                                    'บันทึกข้อมูลเรียบร้อย',
+                                    'success'
+                                )
+                            })
+                            .catch((error) => {
+                                console.error("Error writing document: ", error);
+                            });
+                    }
+                    if (exampleFormControlSelect1.value == 'ศาสนสถาน') {
+                        db.collection("travel_region").doc().set({
+                            travelName: InputTravel.value,
+                            travelCate: exampleFormControlSelect1.value,
+                            positive: inputDetail.value,
+                            travel_map: inputMap.value,
+                            pic: url,
+                        })
+                            .then(() => {
+                                console.log("Document successfully written!");
+                                Swal.fire(
+                                    'Good job!',
+                                    'บันทึกข้อมูลเรียบร้อย',
+                                    'success'
+                                )
+                            })
+                            .catch((error) => {
+                                console.error("Error writing document: ", error);
+                            });
+                    }
+
+
                 });
+
+                console.log('Uploaded a blob or file!');
+                // window.location = "./travel.html";  
+
+
+            });
+            alert("File Uploaded ")
+            // location.reload();
         })
         // ---------------------------------------------------------
-
         function loadFile(n) {
             var output = document.getElementById('output');
             var output2 = document.getElementById('oppp');
@@ -142,92 +248,17 @@
             output.onload = function () {
                 URL.revokeObjectURL(output.src) // free memory
                 console.log('ffffffffffffffsssssssssss', output.src);
-
             }
-
         };
 
-        $("#file_upload").on("change", function (event) { //กำหนดชุดคำสั่งเมื่อเลือกไฟล์
-           
-            
-
-        })
-
-
-
-        save.addEventListener("click", function (event) {
-
-
-
-var file = event.target.files[0]; //เก็บ object file ไว้ในตัวแปร file
-
-            // var file = output.src;
-            console.log('ffffffffffffffffffff', file);
-            // if (file == null)//ถ้า object file เป็น null ให้ ออกจาก function
-            // {
-            //    return ;
-            // }
-
-
-var file_ref = firebase.storage().ref("kk/" + file.name);//สร้าง file ใน firebase
-            console.log('sssssssssssssssssssss', file.name);
-
-            console.log('mmmmmmmmmmmmmm', file_ref);
-            var task = file_ref.put(file);// upload file เข้าไปใน firebase
-            console.log('wwwwwwwwwwwwwwwww', task);
-
-            //กำหนดชุดคำสั่งให้ทำงานเมื่อมีการเปลี่ยนสถานะ
-            task.on("state_changed",
-
-                function progress(snapshot) {//แสดง percent ความก้าวหน้าเมื่อ upload
-
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'warning',
-                        title: 'Display this alert in top right corner',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
-                },
-                function err(err) { //กำหนดชุดคำสั่งให้ทำงานเมื่อ upload  error
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Error' + err
-                    })
-                },
-                function complete() { //กำหนดชุดคำสั่ง เมื่อ Upload เสร็จแล้ว
-
-                    // $("#upload_status").html("");//ซ่อน % ความก้าวหน้า เมื่อ Upload เสร็จแล้ว
-                    $("#file_upload").val("");//ให้ input file เป็นค่าว่าง
-                    //แสดงรูปภาพที่ เพิ่ง Upload
-                    // หา URL ของ ไฟล์รูปที่เพิ่ง Upload
-                    firebase.storage().ref("kk/" + file.name).getDownloadURL().then(function (url) {
-                        //แสดงรูปภาพใน <h4 id="upload_status"></h4>                
-                        var img = document.createElement("img");
-                        $(img).prop("src", url);
-                        console.log('kkkkkkkkkkkkkkkkkkkkkk', url);
-                        // $("#upload_status").html(img);
-
-                    });
-                    Swal.fire(
-                        'Good job!',
-                        'You clicked the button!',
-                        'success'
-                    )
-
-                },
-
-            );
-
-
-
-        })
-
+        function resetForm() {
+            $('#hh')[0].reset();
+            var output2 = document.getElementById('oppp');
+            output2.style.display = "none";
+        }
 
 
         // --------------------------------------------------------------------
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -241,17 +272,9 @@ var file_ref = firebase.storage().ref("kk/" + file.name);//สร้าง file 
                 // ...
                 console.log("User is signed out");                // ...
                 // window.location = "home.html";
-
             }
         });
-
-
-
-
     </script>
-
-
-
 </body>
 
 </html>
