@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สถานที่ท่องเที่ยว</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/3e2cc3644f.js" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#includedContent").load("./menu.html");
+        });
+    </script>
+</head>
+
+<style>
+    body {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    tr:hover {
+        background-color: #e7e2e2
+    }
+</style>
+
+
+<body>
+    <div id="includedContent"></div>
+
+    <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
+        <h2>แก้ไขข้อมูล หมวดหมู่ : น้ำตก</h2>
+        <hr>
+        <br>
+        <div id="showdata">
+            <div>เลขที่เอกสาร
+                <h6 id="data" style="color: darkgray;"></h6>
+            </div>
+            <table style="width: 100%; max-width: 800px;" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 200px;"></th>
+                        <th style="width: 500px;"></th>
+                        <th style="width: 100px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="show">
+                    <tr>
+                        <td style="width: 200px;">ชื่อสถานที่ท่องเที่ยว</td>
+                        <td id="travelName"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;"></td>
+                        <td style="width: 500px;"><input type="text" class="form-control" id="InputTravel"
+                                placeholder="ชื่อสถานที่ท่องเที่ยว"></td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning" id="save"
+                                onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ลักษณะเด่น</td>
+                        <td id="positive" style=" display:block; width:500px; word-wrap:break-word;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> <textarea class="form-control" aria-label="With textarea" id="inputDetail"
+                                placeholder="ลักษณะเด่น"></textarea></td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
+                                id="save_positive" onclick=""><i
+                                    class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Google Map</td>
+                        <td id="travel_map"></td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="InputMap" placeholder="ใส่ลิ้งค์จาก Google Map">
+                        </td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
+                                id="save_map" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>รูปภาพ</td>
+                        <td id="pico"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="file" onchange="loadFile(event)" id="files" />
+                            <br>
+                            <div style="display: none; margin-top: 10px;" id="oppp">
+                                <img id="output" height="250px" />
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-sm btn-warning" id="save_pic" onclick=""><i
+                                    class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <button type="submit" class="btn btn-primary" onclick="update" id="save">Submit</button> -->
+
+        </div>
+    </div>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
+            authDomain: "stuncity-24791.firebaseapp.com",
+            databaseURL: "https://stuncity-24791.firebaseio.com",
+            projectId: "stuncity-24791",
+            storageBucket: "stuncity-24791.appspot.com",
+            messagingSenderId: "281522763629",
+            appId: "1:281522763629:web:6f1f883f99307fa3740c64",
+            measurementId: "G-4538TQL69P"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // -----------------------------------------------
+        const db = firebase.firestore()
+        const save = document.querySelector("#save");
+        const save_pic = document.querySelector("#save_pic");
+        const save_positive = document.querySelector("#save_positive");
+        const save_map = document.querySelector("#save_map");
+
+        var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_water");
+        var dataid = localStorage.getItem("txtValue_water");
+        var docRef = db.collection("travel_waterfall").doc(dataid);
+        console.log('rerrrrrrrr---------------------rrr', dataid);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                var data = doc.data();
+                var travelName = document.getElementById("travelName").innerHTML = data.travelName;
+                var positive = document.getElementById("positive").innerHTML = data.positive;
+                var travel_map = document.getElementById("travel_map").innerHTML = data.travel_map;
+                var jj = data.pic;
+                let row = `
+                            <div style="width: 200px;"><a href="${data.pic}" target="_blank"><img src="${data.pic}" width="200px"/></a></div>
+                     `;
+                let table = document.getElementById('pico');
+                table.innerHTML = row
+
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+        // ---------------------------------------------------------------------
+        var travelNamer = document.getElementById("InputTravel");
+        var positive_r = document.getElementById("inputDetail");
+        var travel_map_r = document.getElementById("InputMap");
+
+        save.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", travelNamer.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+
+            if (travelNamer.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("travel_waterfall").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    travelName: travelNamer.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+
+            }
+
+        })
+        // -------------------------------------------------------------------------
+        save_positive.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", positive_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+            if (positive_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+ var washingtonRef = db.collection("travel_waterfall").doc(dataid);
+
+            // Set the "capital" field of the city 'DC'
+            return washingtonRef.update({
+                positive: positive_r.value
+            })
+                .then(() => {
+                    console.log("Document successfully updated!");
+                    Swal.fire(
+                        'Good job!',
+                        'แก้ไขข้อมูลเรียบร้อย',
+                        'success'
+                    )
+                    location.reload();
+
+                })
+                .catch((error) => {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                });
+
+            }
+           
+
+        })
+        // --------------------------------------------------------
+        save_map.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", travel_map_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+            if (travel_map_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("travel_waterfall").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    travel_map: travel_map_r.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            }
+
+
+
+
+        })
+        // -----------------------------------------------------------------------
+        save_pic.addEventListener("click", function () {
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            var output2 = document.getElementById('oppp');
+            var storageRef = firebase.storage().ref();
+            // Get the file from DOM
+            var file = document.getElementById("files").files[0];
+            console.log(file);
+            //dynamically set reference to the file name
+            if (file == undefined) {
+                output2.style.display = "none";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาอัปโหลดรูปภาพ'
+                })
+            }
+            else {
+
+                var thisRef = storageRef.child("travel/travel_" + file.name);
+                //put request upload file to firebase storage
+                thisRef.put(file).then(function (snapshot) {
+                    firebase.storage().ref("travel/travel_" + file.name).getDownloadURL().then(function (url) {
+                        console.log("lllllllllllllllllllllllllllllll", url);
+                        var washingtonRef = db.collection("travel_waterfall").doc(dataid);
+                        // Set the "capital" field of the city 'DC'
+                        return washingtonRef.update({
+                            pic: url
+                        })
+                            .then(() => {
+                                console.log("Document successfully updated!");
+                                Swal.fire(
+                                    'Good job!',
+                                    'แก้ไขข้อมูลเรียบร้อย',
+                                    'success'
+                                )
+                                location.reload();
+
+                            })
+                            .catch((error) => {
+                                // The document probably doesn't exist.
+                                console.error("Error updating document: ", error);
+                            });
+
+
+                    })
+                });
+
+                console.log('Uploaded a blob or file!');
+                // window.location = "./travel.html";  
+                // location.reload();
+            }
+
+
+
+
+        });
+        // alert("File Uploaded ")
+
+
+
+
+        // ----------------------------------------------------------------------------
+        function loadFile(n) {
+            var output = document.getElementById('output');
+            var output2 = document.getElementById('oppp');
+            var file = document.getElementById("files").files[0];
+
+            if (file == undefined) {
+                output2.style.display = "none";
+                // Swal.fire({
+                //         icon: 'error',
+                //         title: 'Oops...',
+                //         text: 'Something went wrong!'
+                //     })
+            }
+            else {
+
+                output2.style.display = "block";
+                output.src = URL.createObjectURL(n.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                    console.log('ffffffffffffffsssssssssss', output.src);
+                }
+            }
+
+        };
+        // --------------------------------------------------------------------
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                // ...
+                console.log("Signin ", uid);                // ...
+
+            } else {
+                // User is signed out
+                // ...
+                console.log("User is signed out");                // ...
+                // window.location = "home.html";
+            }
+        });
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    </script>
+</body>
+
+</html>

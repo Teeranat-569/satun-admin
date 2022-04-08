@@ -116,15 +116,15 @@
                       
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px;">${i}</div></td>
+                        <td><div style="width: 50px;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.travelName}</div></td>
                             <td><div style="width: 500px;">${data.positive}</div></td>
                             <td style="text-align: center;"><div style="width: 50px;">${data.travelCate}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.pic}" target="_blank"><img src="${data.pic}" width="200px"/></a></div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.travel_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
-                            <td><button type="button" class="btn btn-sm btn-warning"><i
+                            <td><button type="button" class="btn btn-sm btn-warning"onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
+                    <td><button type="button" class="btn btn-sm btn-danger" ><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
@@ -138,7 +138,12 @@
                 console.log(`Error: ${err}`)
             });
 
+            function getData(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_water", docid);
+            window.location = "./edit_travel_water.html";
 
+        }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

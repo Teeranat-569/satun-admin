@@ -70,58 +70,8 @@
                 </thead>
                 <tbody id="myTable">
                 </tbody>
-                <!-- <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i
-                                class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
-                                class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
-                </tr> -->
-
             </table>
         </div>
-        <!-- <div id="showdata" style="overflow-y: auto;">
-            <table>
-                <tr>
-                    <th>ลำดับที่</th>
-                    <th>ชื่อสินค้า OTOP</th>
-                    <th>ร้านสินค้า OTOP</th>
-                    <th>รูปภาพ</th>
-                    <th>ที่อยู่ร้าน</th>
-                    <th>เบอร์โทร</th>
-                    <th>พิกัด</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>                
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>                
-                </tr>
-            </table>
-        </div> -->
     </div>
 
     <script>
@@ -140,19 +90,6 @@
         // -----------------------------------------------
         const db = firebase.firestore()
         const save = document.querySelector("#save");
-
-        // db.collection("otop")
-        //     .get()
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-        //             // doc.data() is never undefined for query doc snapshots
-        //             console.log(doc.id, " => ", doc.data());
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log("Error getting documents: ", error);
-        //     })
-
         db.collection("otop_store")
             .get()
             .then(querySnapshot => {
@@ -165,14 +102,14 @@
                       
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px;">${i}</div></td>
+                        <td><div style="width: 50px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 200px;">${data.otop_name}</div></td>
                             <td><div style="width: 200px;">${data.store_name}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div></td>
                             <td><div style="width: 200px;">${data.store_address}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;">${data.store_phone}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
-                            <td><button type="button" class="btn btn-sm btn-warning"><i
+                            <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
@@ -187,7 +124,12 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
+            function getData(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_otopshop", docid);
+            window.location = "./edit_otop_shop.html";
 
+        }
 
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {

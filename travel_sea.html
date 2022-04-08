@@ -58,19 +58,6 @@
                 </thead>
                 <tbody id="myTable">
                 </tbody>
-                <!-- <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i
-                                class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
-                                class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
-                </tr> -->
-
             </table>
         </div>
     </div>
@@ -91,19 +78,6 @@
         // -----------------------------------------------
         const db = firebase.firestore()
         const save = document.querySelector("#save");
-
-        // db.collection("otop")
-        //     .get()
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-        //             // doc.data() is never undefined for query doc snapshots
-        //             console.log(doc.id, " => ", doc.data());
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log("Error getting documents: ", error);
-        //     })
-
         db.collection("travel")
             .get()
             .then(querySnapshot => {

@@ -101,29 +101,31 @@
                       
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px;">${i}</div></td>
+                        <td><div style="width: 50px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 200px;">${data.res_name}</div></td>
                             <td><div style="width: 500px;">${data.res_data}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>
                             <td><div style="width: 200px;">${data.res_address}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
-                            <td><button type="button" class="btn btn-sm btn-warning"><i
+                            <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
-                   
-
-
                 })
             })
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
 
+            function getData(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_res", docid);
+            window.location = "./edit_food.html";
 
+        }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
