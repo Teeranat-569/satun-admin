@@ -39,7 +39,7 @@
     <div id="includedContent"></div>
 
     <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
-        <h2>แก้ไขข้อมูลร้านขายสินค้า OTOP</h2>
+        <h2>แก้ไขข้อมูลร้านอาหาร</h2>
         <hr>
         <br>
         <div id="showdata">
@@ -88,13 +88,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>เบอร์โทรศัพท์</td>
+                        <td>ข้อมูลร้านอาหาร</td>
                         <td id="phone"></td>
 
                     </tr>
                     <tr>
                         <td></td>
-                        <td><input type="text" class="form-control" id="inputphone" placeholder="เบอร์โทรศัพท์">
+                        <td><input type="text" class="form-control" id="inputphone" placeholder="ข้อมูลร้านอาหาร">
                         </td>
                         <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
                                 id="save_phone" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
@@ -160,22 +160,22 @@
         const save_phone = document.querySelector("#save_phone");
 
 
-        var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_otopshop");
-        var dataid = localStorage.getItem("txtValue_otopshop");
-        var docRef = db.collection("otop_store").doc(dataid);
+        var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_res");
+        var dataid = localStorage.getItem("txtValue_res");
+        var docRef = db.collection("restaurant").doc(dataid);
         console.log('rerrrrrrrr---------------------rrr', dataid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
                 var data = doc.data();
-                var storeName = document.getElementById("travelName").innerHTML = data.store_name;
-                var store_address = document.getElementById("positive").innerHTML = data.store_address;
-                var travel_map = document.getElementById("travel_map").innerHTML = data.store_map;
-                var phone = document.getElementById("phone").innerHTML = data.store_phone;
+                var storeName = document.getElementById("travelName").innerHTML = data.res_name;
+                var store_address = document.getElementById("positive").innerHTML = data.res_address;
+                var travel_map = document.getElementById("travel_map").innerHTML = data.res_map;
+                var phone = document.getElementById("phone").innerHTML = data.res_data;
                 var jj = data.store_pic;
                 let row = `
-                            <div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div>
+                            <div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div>
                      `;
                 let table = document.getElementById('pico');
                 table.innerHTML = row
@@ -187,13 +187,13 @@
             console.log("Error getting document:", error);
         });
         // ---------------------------------------------------------------------
-        var storeNamer = document.getElementById("InputTravel");
-        var store_r = document.getElementById("inputDetail");
-        var store_map_r = document.getElementById("InputMap");
-        var store_phone_r= document.getElementById("inputphone");
+        var resNamer = document.getElementById("InputTravel");
+        var res_r = document.getElementById("inputDetail");
+        var res_map_r = document.getElementById("InputMap");
+        var res_data_r= document.getElementById("inputphone");
 
         save.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", storeNamer.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", resNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
 
@@ -204,11 +204,11 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
-                var washingtonRef = db.collection("otop_store").doc(dataid);
+                var washingtonRef = db.collection("restaurant").doc(dataid);
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    store_name: storeNamer.value
+                    res_name: resNamer.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
@@ -231,7 +231,7 @@
         })
         // -------------------------------------------------------------------------
         save_positive.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_r.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
             if (store_r.value == '') {
@@ -241,11 +241,11 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
-                var washingtonRef = db.collection("otop_store").doc(dataid);
+                var washingtonRef = db.collection("restaurant").doc(dataid);
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    store_address: store_r.value
+                    res_address: res_r.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
@@ -268,7 +268,7 @@
         })
         // --------------------------------------------------------
         save_map.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_map_r.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_map_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
             if (store_map_r.value == '') {
@@ -278,11 +278,11 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
-                var washingtonRef = db.collection("otop_store").doc(dataid);
+                var washingtonRef = db.collection("restaurant").doc(dataid);
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    store_map: store_map_r.value
+                    res_map: res_map_r.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
@@ -304,7 +304,7 @@
 
           // --------------------------------------------------------
           save_phone.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_phone_r.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_data_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
             if (store_phone_r.value == '') {
@@ -318,7 +318,7 @@
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    store_phone: store_phone_r.value
+                    res_data: res_res_r.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");

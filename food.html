@@ -46,7 +46,8 @@
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
                     <center>
-                        <a class="btn btn-sm btn-primary" href="./add_food.html"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;
+                        <a class="btn btn-sm btn-primary" href="./add_food.html"><i
+                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
                             เพิ่มข้อมูล</a>
                     </center>
                 </div>
@@ -57,8 +58,7 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">ลำดับที่</th>
-                        <th scope="col" style="width: 200px;">ชื่อร้านอาหาร</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 200px;">ชื่อร้านอาหาร</th>
                         <th scope="col" style="width: 500px;">ข้อมูลร้านอาหาร</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col" style="width: 200px;">ที่อยู่ร้าน</th>
@@ -95,13 +95,13 @@
                 querySnapshot.forEach(doc => {
                     let data = doc.data();
                     var num;
-                    for (var i = 0; i < data.length; i++) { 
-                       
-                      console.log('nnnnnnnnnnnnnn' , i);
-                      
+                    for (var i = 0; i < data.length; i++) {
+
+                        console.log('nnnnnnnnnnnnnn', i);
+
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px; word-wrap:break-word;">${doc.id}</div></td>
+                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 200px;">${data.res_name}</div></td>
                             <td><div style="width: 500px;">${data.res_data}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>
@@ -120,7 +120,7 @@
                 console.log(`Error: ${err}`)
             });
 
-            function getData(docid) {
+        function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_res", docid);
             window.location = "./edit_food.html";

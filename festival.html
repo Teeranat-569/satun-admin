@@ -57,7 +57,7 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">ลำดับที่</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
                         <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่องานประจำปี</th>
                         <th scope="col" style="width: 500px;">ข้อมูลงานประจำปี</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
@@ -70,37 +70,6 @@
 
             </table>
         </div>
-        <!-- <div id="showdata" style="overflow-y: auto;">
-            <table>
-                <tr>
-                    <th>ลำดับที่</th>
-                    <th>ชื่องานประจำปี</th>
-                    <th>ข้อมูลงานประจำปี</th>
-                    <th>รูปภาพ</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>                
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td>mmmmmmmmmmmmmmmm</td>
-                    <td><button type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>                
-                </tr>
-            </table>
-        </div> -->
     </div>
 
     <script>
@@ -129,11 +98,11 @@
                         console.log('nnnnnnnnnnnnnn', i);
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px;">${i}</div></td>
+                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.fes_name}</div></td>
                             <td><div style="width: 500px;">${data.fes_data}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.fes_pic}" target="_blank"><img src="${data.fes_pic}" width="200px"/></a></div></td>
-                            <td><button type="button" class="btn btn-sm btn-warning"><i
+                            <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
@@ -146,7 +115,13 @@
                 console.log(`Error: ${err}`)
             });
 
+            function getData(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_fes", docid);
+            window.location = "./edit_festival.html";
 
+
+        }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

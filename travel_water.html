@@ -46,8 +46,7 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">ลำดับที่</th>
-                        <th scope="col">ชื่อสถานที่ท่องเที่ยว</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col">ชื่อสถานที่ท่องเที่ยว</th>
                         <th scope="col" style="width: 500px;">ลักษณะเด่น</th>
                         <th scope="col">หมวดหมู่</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
@@ -116,7 +115,7 @@
                       
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px;">${doc.id}</div></td>
+                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.travelName}</div></td>
                             <td><div style="width: 500px;">${data.positive}</div></td>
                             <td style="text-align: center;"><div style="width: 50px;">${data.travelCate}</div></td>

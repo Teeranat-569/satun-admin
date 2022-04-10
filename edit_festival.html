@@ -39,7 +39,7 @@
     <div id="includedContent"></div>
 
     <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
-        <h2>แก้ไขข้อมูลสินค้า OTOP</h2>
+        <h2>แก้ไขข้อมูลงานประจำปี</h2>
         <hr>
         <br>
         <div id="showdata">
@@ -62,26 +62,26 @@
                 </thead>
                 <tbody id="show">
                     <tr>
-                        <td style="width: 200px;">ชื่อสินค้า OTOP</td>
+                        <td style="width: 200px;">ชื่องานประจำปี</td>
                         <td id="travelName"></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td style="width: 200px;"></td>
                         <td style="width: 500px;"><input type="text" class="form-control" id="InputTravel"
-                                placeholder="ชื่อสินค้า OTOP"></td>
+                                placeholder="ชื่องานประจำปี"></td>
                         <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning" id="save"
                                 onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
                         </td>
                     </tr>
                     <tr>
-                        <td>ข้อมูลสินค้า OTOP</td>
+                        <td>ข้อมูลงานประจำปี</td>
                         <td id="positive" style=" display:block; width:500px; word-wrap:break-word;"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td> <textarea class="form-control" aria-label="With textarea" id="inputDetail"
-                                placeholder="ข้อมูลสินค้า OTOP"></textarea></td>
+                                placeholder="ข้อมูลงานประจำปี"></textarea></td>
                         <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
                                 id="save_positive" onclick=""><i
                                     class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
@@ -145,21 +145,21 @@
         const save_positive = document.querySelector("#save_positive");
         // const save_map = document.querySelector("#save_map");
 
-        var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_otop");
-        var dataid = localStorage.getItem("txtValue_otop");
-        var docRef = db.collection("otop").doc(dataid);
+        var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_fes");
+        var dataid = localStorage.getItem("txtValue_fes");
+        var docRef = db.collection("festival").doc(dataid);
         console.log('rerrrrrrrr---------------------rrr', dataid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
                 var data = doc.data();
-                var otopName = document.getElementById("travelName").innerHTML = data.otop_name;
-                var positive = document.getElementById("positive").innerHTML = data.data;
+                var otopName = document.getElementById("travelName").innerHTML = data.fes_name;
+                var positive = document.getElementById("positive").innerHTML = data.fes_data;
                 // var travel_map = document.getElementById("travel_map").innerHTML = data.travel_map;
                 var jj = data.otop_pic;
                 let row = `
-                            <div style="width: 200px;"><a href="${data.otop_pic}" target="_blank"><img src="${data.otop_pic}" width="200px"/></a></div>
+                            <div style="width: 200px;"><a href="${data.fes_pic}" target="_blank"><img src="${data.fes_pic}" width="200px"/></a></div>
                      `;
                 let table = document.getElementById('pico');
                 table.innerHTML = row
@@ -171,12 +171,12 @@
             console.log("Error getting document:", error);
         });
         // ---------------------------------------------------------------------
-        var otopNamer = document.getElementById("InputTravel");
-        var otop_r = document.getElementById("inputDetail");
+        var fesNamer = document.getElementById("InputTravel");
+        var fes_r = document.getElementById("inputDetail");
         // var travel_map_r = document.getElementById("InputMap");
 
         save.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", otopNamer.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", fesNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
 
@@ -187,11 +187,11 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
-                var washingtonRef = db.collection("otop").doc(dataid);
+                var washingtonRef = db.collection("festival").doc(dataid);
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    otop_name: otopNamer.value
+                    fes_name: fesNamer.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
@@ -214,7 +214,7 @@
         })
         // -------------------------------------------------------------------------
         save_positive.addEventListener("click", function () {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", otop_r.value);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", fes_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
             if (otop_r.value == '') {
@@ -224,11 +224,11 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
- var washingtonRef = db.collection("otop").doc(dataid);
+ var washingtonRef = db.collection("festival").doc(dataid);
 
             // Set the "capital" field of the city 'DC'
             return washingtonRef.update({
-                data: otop_r.value
+                fes_data: fes_r.value
             })
                 .then(() => {
                     console.log("Document successfully updated!");

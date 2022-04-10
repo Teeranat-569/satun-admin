@@ -58,8 +58,7 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">ลำดับที่</th>
-                        <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่อสินค้า OTOP</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่อสินค้า OTOP</th>
                         <th scope="col" style="width: 500px;">ข้อมูลสินค้า</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col"></th>
@@ -115,7 +114,7 @@
 
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 50px; word-wrap:break-word;">${doc.id}</div></td>
+                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.otop_name}</div></td>
                             <td><div style="width: 500px;">${data.data}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.otop_pic}" target="_blank"><img src="${data.otop_pic}" width="200px"/></a></div></td>
