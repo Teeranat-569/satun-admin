@@ -65,6 +65,7 @@
                                     style="color: red;">*</span></label>
                             <div>
                                 <input type="file" name="files[]" id="files" multiple>
+                                <div id="myImg"></div>
                             </div>
                         </div>
                     </div>
@@ -98,66 +99,75 @@
 
         // ----------------------------------
         function uploadImageAsPromise(imageFile) {
-            return new Promise(function (resolve, reject) {
-                var storageRef = firebase.storage().ref();
-                var thisRef = storageRef.child("festival/festival_" + imageFile.name);
+            // return new Promise(function (resolve, reject) {
+            var storageRef = firebase.storage().ref();
+            var sumRef = [];
+            const photoArray = [];
+            const uploadTasks = [];
+            for (let index = 0; index < imageFile.length; index++) {
+                uploadTasks.push(handleUpload(imageFile[index]));
+                var thisRef = storageRef.child("festival/festival_" + imageFile[index].name);
+                sumRef.push(thisRef);
+            }
+            console.log(sumRef);
 
-                //Upload file
-                thisRef.put(imageFile).then(function (snapshot) {
-                    firebase.storage().ref("festival/festival_" + imageFile.name).getDownloadURL().then(function (url) {
-                        console.log('tttttttttttttttt' + url);
-                        console.log("lllllllllllllllllllllllllllllll", InputTravel.value);
-                        console.log("lllllllllllllllllllllllllllllll", inputDetail.value);
-                        console.log("lllllllllllllllllllllllllllllll", url);
-                        var url_file = [];
-                        for (let index = 0; index < files.length; index++) {
-                            url_file.push(url);
-                            console.log('222222222222222222222222222222222222222222222222222');
-                            console.log(url_file);
-                        }
-                        db.collection("festival").doc().set({
-                            fes_name: InputTravel.value,
-                            fes_data: inputDetail.value,
-                            fes_pic: url_file,
-                        })
-                            .then(() => {
+            Promise.all(uploadTasks).then(() => {
+                    console.log(photoArray); // OUTPUTS THE ARRAY
+                    const collectionRef = db.collection('festival');
+                    collectionRef.add({
+                        fes_name: InputTravel.value,   // WORKS
+                        fes_data: inputDetail.value,    // WORKS
+                        fes_pic: photoArray,    // SHOULD WORK NOW!
+                    }) .then(() => {
                                 console.log("Document successfully written!");
-                                location.reload();
                                 Swal.fire(
                                     'Good job!',
                                     'บันทึกข้อมูลเรียบร้อย',
                                     'success'
                                 )
+                                location.reload();
                             })
                             .catch((error) => {
                                 console.error("Error writing document: ", error);
-                            });
+                            });;
+                });
+
+            function handleUpload(file) {
+                var storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child("pp/" + file.name);
+
+                return fileRef.put(file).then(() => {
+                    return fileRef.getDownloadURL().then(function (url) {
+                        photoArray.push(url);
                     });
                 });
-            });
-        }
 
+            }
+
+        }
+        // ********************************************************************************
+        // rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
         var files = [];
-        gg.addEventListener("change", function (e) {
-            files = e.target.files;
-            console.log(e.target.files);
-            console.log('xxxxxxxxxxxxxxxhhh' + e.target.files.length);
-            if (files.length < 3) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ผิดพลาด',
-                    text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
-                })
-            }
-            else {
-            }
-        });
+        // gg.addEventListener("change", function (e) {
+        //     files = e.target.files;
+        //     console.log(e.target.files);
+        //     console.log('xxxxxxxxxxxxxxxhhh' + e.target.files.length);
+        //     if (files.length < 3) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'ผิดพลาด',
+        //             text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
+        //         })
+        //     }
+        //     else {
+        //     }
+        // });
         // +++++++++++++++++++++++++++++++++
         save.addEventListener("click", function () {
             var fileInput = document.getElementById("files");
             files = fileInput.files;
             console.log('xxxxxxxxxxxxxxxhhh' + files.length);
-            
+
             if (files.length < 3) {
                 Swal.fire({
                     icon: 'error',
@@ -167,25 +177,26 @@
             }
             else {
                 uploadImageAsPromise(files);
+
             }
         })
         // ---------------------------------------------------------
-        function loadFile(n) {
-            var output = document.getElementById('output');
-            var output2 = document.getElementById('oppp');
-            output2.style.display = "block";
-            output.src = URL.createObjectURL(n.target.files[0]);
-            output.onload = function () {
-                URL.revokeObjectURL(output.src) // free memory
-                console.log('ffffffffffffffsssssssssss', output.src);
-            }
-        };
+        $(function () {
+            $(":file").change(function () {
+                if (this.files && this.files[0]) {
+                    for (var i = 0; i < this.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[i]);
+                    }
+                }
+            });
+        });
 
-        function resetForm() {
-            $('#hh')[0].reset();
-            var output2 = document.getElementById('oppp');
-            output2.style.display = "none";
-        }
+        function imageIsLoaded(e) {
+            $('#myImg').append('<img src=' + e.target.result + ' height = "200px">');
+        };
+        // ---------------------------------------------------------
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -203,10 +214,5 @@
             }
         });
     </script>
-
-
-
-
 </body>
-
 </html>

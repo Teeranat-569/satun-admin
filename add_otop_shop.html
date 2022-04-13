@@ -117,6 +117,7 @@
         var gg = document.getElementById("files");
         var InputTravel = document.getElementById('InputTravel');
         var inputDetail = document.getElementById('inputDetail');
+        var map = document.getElementById('inputMap');
         // 5555555555555555555555555555555555555555555555555555555555555555555
         db.collection("otop")
             .get()
@@ -133,42 +134,102 @@
             });
         // ----------------------------------
         //Listen for file selection
-        fileButton.addEventListener('change', function (e) {
-            //Get files
-            for (var i = 0; i < e.target.files.length; i++) {
-                var imageFile = e.target.files[i];
+        // gg.addEventListener('change', function (e) {
+        //     var sumFile = [];
+        //     //Get files
+        //     for (var i = 0; i < e.target.files.length; i++) {
+        //         var imageFile = e.target.files[i];
+        //         sumFile.push(imageFile);
+        //         uploadImageAsPromise(sumFile);
+        //     }
+        //     console.log(sumFile);
+        // });
+        // 55555555555555555555555555555555555555555555555555555555555555555555555555555
+        function uploadImageAsPromise(imageFile) {
+            // return new Promise(function (resolve, reject) {
+            var storageRef = firebase.storage().ref();
+            var sumRef = [];
+            const photoArray = [];
+            const uploadTasks = [];
+            for (let index = 0; index < imageFile.length; index++) {
+                uploadTasks.push(handleUpload(imageFile[index]));
+                var thisRef = storageRef.child("otop/otop_store/otop_store_" + imageFile[index].name);
+                sumRef.push(thisRef);
+            }
+            console.log(sumRef);
 
-                uploadImageAsPromise(imageFile);
+            Promise.all(uploadTasks).then(() => {
+                console.log(photoArray); // OUTPUTS THE ARRAY
+                const collectionRef = db.collection('otop_store');
+                collectionRef.add({
+                    otop_name: option.value,   // WORKS
+                    store_name: InputTravel.value,
+                    store_address: inputDetail.value,
+                    store_phone: phone.value,
+                    store_map: map.value,
+                    // WORKS
+                    store_pic: photoArray,    // SHOULD WORK NOW!
+                }).then(() => {
+                    console.log("Document successfully written!");
+                    Swal.fire(
+                        'Good job!',
+                        'บันทึกข้อมูลเรียบร้อย',
+                        'success'
+                    );
+                    location.reload();
+
+
+                })
+                    .catch((error) => {
+                        console.error("Error writing document: ", error);
+                    });;
+            });
+
+            function handleUpload(file) {
+                var storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child("pp/" + file.name);
+
+                return fileRef.put(file).then(() => {
+                    return fileRef.getDownloadURL().then(function (url) {
+                        photoArray.push(url);
+                    });
+                });
+
+            }
+        }
+        // 5566666666666666666666666666666666666666666666666666666666666666666666666
+        var files = [];
+        gg.addEventListener("change", function (e) {
+            files = e.target.files;
+            console.log(e.target.files);
+            console.log('xxxxxxxxxxxxxxxhhh' + e.target.files.length);
+            if (files.length < 3) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
+                })
+            }
+            else {
             }
         });
-
-        //Handle waiting to upload each file using promise
-        function uploadImageAsPromise(imageFile) {
-            return new Promise(function (resolve, reject) {
-                var storageRef = firebase.storage().ref(fullDirectory + "/" + imageFile.name);
-
-                //Upload file
-                var task = storageRef.put(imageFile);
-
-                //Update progress bar
-                task.on('state_changed',
-                    function progress(snapshot) {
-                        var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-                        uploader.value = percentage;
-                    },
-                    function error(err) {
-
-                    },
-                    function complete() {
-                        var downloadURL = task.snapshot.downloadURL;
-                    }
-                );
-            });
-        }
-
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         save.addEventListener("click", function () {
+            var fileInput = document.getElementById("files");
+            files = fileInput.files;
+            console.log('xxxxxxxxxxxxxxxhhh' + files.length);
 
+            if (files.length < 3) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
+                })
+            }
+            else {
+                uploadImageAsPromise(files);
+
+            }
         })
         // ---------------------------------------------------
         $(function () {
@@ -188,42 +249,6 @@
         };
 
         // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-        // function loadFile(n) {
-        //     var output = document.getElementById('output');
-        //     var output2 = document.getElementById('oppp');
-        //     // var file = document.getElementById("files").files[0];
-        //     var fileInput = document.getElementById("files");
-        //     files = fileInput.files;
-        //     console.log('xxxxxxxxxxxxxxxhhh' + files.length);
-
-        //     for (let index = 0; index < files.length; index++) {
-        //         let row = `<img id="output" height="250px" />`;
-        //         let table = document.getElementById('exampleFormControlSelect1')
-        //         table.innerHTML += row
-        //     }
-
-
-
-        //     if (file == undefined) {
-        //         output2.style.display = "none";
-        //         // Swal.fire({
-        //         //         icon: 'error',
-        //         //         title: 'Oops...',
-        //         //         text: 'Something went wrong!'
-        //         //     })
-        //     }
-        //     else {
-
-        //         output2.style.display = "block";
-        //         output.src = URL.createObjectURL(n.target.files[0]);
-        //         output.onload = function () {
-        //             URL.revokeObjectURL(output.src) // free memory
-        //             console.log('ffffffffffffffsssssssssss', output.src);
-        //         }
-        //     }
-
-        // };
-        // --------------------------------------------------------------------
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

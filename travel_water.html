@@ -123,7 +123,7 @@
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.travel_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning"onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ><i
+                    <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.travelName}')"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
@@ -136,12 +136,41 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-
+// ###########################################################
             function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_water", docid);
             window.location = "./edit_travel_water.html";
 
+        }
+        // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        function delData(docid, travelName) {
+            Swal.fire({
+                title: 'คุณต้องการลบ   ' + travelName + '   ใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) { 
+                    Swal.fire('ลบเรียบร้อย', '', 'success')
+                    db.collection("travel_waterfall").doc(docid).delete().then(() => {
+                        console.log("Document successfully deleted!");
+                       
+                        location.reload();
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
         }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
