@@ -46,7 +46,8 @@
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
                     <center>
-                        <a class="btn btn-sm btn-primary" href="./add_otop_shop.html"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;
+                        <a class="btn btn-sm btn-primary" href="./add_otop_shop.html"><i
+                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
                             เพิ่มข้อมูล</a>
                     </center>
                 </div>
@@ -57,9 +58,10 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 200px;">ชื่อสินค้า OTOP</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
+                        <th scope="col" style="width: 200px;">ชื่อสินค้า OTOP</th>
                         <th scope="col" style="width: 200px;">ร้านสินค้า OTOP</th>
-                        <th scope="col" style="text-align: center;">รูปภาพ</th>
+                        <th scope="col" style="text-align: center; width: 200px;">รูปภาพ</th>
                         <th scope="col" style="width: 200px;">ที่อยู่ร้าน</th>
                         <th scope="col" style="width: 150px;">เบอร์โทร</th>
                         <th scope="col" style="width: 150px;">พิกัด</th>
@@ -95,27 +97,29 @@
                 querySnapshot.forEach(doc => {
                     let data = doc.data();
                     var num;
-                    for (var i = 0; i < data.length; i++) { 
-                       
-                      console.log('nnnnnnnnnnnnnn' , i);
-                      
-                    }
+                    $(document).on("click", ".somebutton", function () {
+                        for (var i = 0, len = myimages.lenght; i++;) {
+                            //i will assume you will detect the element depending the situation and its a image element
+                            $("someSelector").attr("src", myimages[i]);
+                        }
+                    });
                     let row = `<tr style="text-align: left;">
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 200px;">${data.otop_name}</div></td>
                             <td><div style="width: 200px;">${data.store_name}</div></td>
-                            <td style="text-align: center;"><div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div></td>
+                            <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
+                            <!--<td style="text-align: center;"><div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div></td>-->
                             <td><div style="width: 200px;">${data.store_address}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;">${data.store_phone}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
+                    <td style="width: 200px;"><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.store_name}')"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
-                   
+
 
 
                 })
@@ -123,13 +127,65 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-            function getData(docid) {
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_otopshop", docid);
             window.location = "./edit_otop_shop.html";
 
         }
+        // -----------------------------------------------------------------------
+        function getImg(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_otopshop_img", docid);
+            window.location = "./show_img_otop_shop.html";
 
+        }
+        // -----------------------------------------------------------------------
+        function delData(docid, store_name) {
+            Swal.fire({
+                title: 'คุณต้องการลบร้าน   ' + store_name + '   ใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('ลบเรียบร้อย', '', 'success')
+                    db.collection("otop_store").doc(docid).delete().then(() => {
+                        console.log("Document successfully deleted!");
+
+                        location.reload();
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
+        }
+        // /////////////////////////////////////////////////////////////////////////
+        $(function () {
+            $(":file").change(function () {
+                if (this.files && this.files[0]) {
+                    for (var i = 0; i < this.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[i]);
+                    }
+                }
+            });
+        });
+
+        function imageIsLoaded(e) {
+            $('#myImg').append('<img src=' + e.target.result + ' height="250px">');
+        };
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
