@@ -1,8 +1,3 @@
-
-
-
-
-
 <style>
     a {
         font-family: 'Kanit', sans-serif;
@@ -36,5 +31,69 @@
         </ul>
     </div>
 
-</div>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
+            authDomain: "stuncity-24791.firebaseapp.com",
+            databaseURL: "https://stuncity-24791.firebaseio.com",
+            projectId: "stuncity-24791",
+            storageBucket: "stuncity-24791.appspot.com",
+            messagingSenderId: "281522763629",
+            appId: "1:281522763629:web:6f1f883f99307fa3740c64",
+            measurementId: "G-4538TQL69P"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const save = document.querySelector("#signOut");
 
+        save.addEventListener("click", function () {
+            Swal.fire({
+                title: 'คุณต้องการลบร้าน   ' + res_name + '   ใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    firebase.auth().signOut().then(() => {
+                        window.location = "index.html";
+
+                    }).catch((error) => {
+                        // An error happened.
+                    });
+                } else if (result.isDenied) {
+                    // Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
+
+
+
+
+        })
+        firebase.auth().onAuthStateChanged((user) => {
+
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                var uid = user.uid;
+                // ...
+                console.log("Signin ", uid);                // ...
+                window.location = "home.html";
+
+            } else {
+                // User is signed out
+                // ...
+                console.log("User is signed out");                // ...
+
+            }
+        });
+    </script>
+
+</div>
