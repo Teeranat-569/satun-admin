@@ -101,10 +101,12 @@
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.fes_name}</div></td>
                             <td><div style="width: 500px;">${data.fes_data}</div></td>
-                            <td style="text-align: center;"><div style="width: 200px;"><a href="${data.fes_pic}" target="_blank"><img src="${data.fes_pic}" width="200px"/></a></div></td>
+                            <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
+
+                       <!--     <td style="text-align: center;"><div style="width: 200px;"><a href="${data.fes_pic}" target="_blank"><img src="${data.fes_pic}" width="200px"/></a></div></td>-->
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
+                    <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.fes_name}')"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
@@ -114,6 +116,7 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
+            // -------------------------------------------
 
             function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
@@ -121,6 +124,42 @@
             window.location = "./edit_festival.html";
 
 
+        }
+        // -----------------------------------------------
+        function getImg(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_fes_img", docid);
+            window.location = "./show_img_fes.html";
+
+        }
+        // ----------------------------------------------------------
+        function delData(docid, store_name) {
+            Swal.fire({
+                title: 'คุณต้องการลบร้าน   ' + store_name + '   ใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('ลบเรียบร้อย', '', 'success')
+                    db.collection("festival").doc(docid).delete().then(() => {
+                        console.log("Document successfully deleted!");
+
+                        location.reload();
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
         }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {

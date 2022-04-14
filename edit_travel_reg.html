@@ -195,11 +195,7 @@
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
-                        Swal.fire(
-                            'Good job!',
-                            'แก้ไขข้อมูลเรียบร้อย',
-                            'success'
-                        )
+
                         location.reload();
 
                     })
@@ -207,7 +203,11 @@
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
-
+                Swal.fire(
+                    'Good job!',
+                    'แก้ไขข้อมูลเรียบร้อย',
+                    'success'
+                )
 
             }
 
@@ -224,28 +224,28 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
- var washingtonRef = db.collection("travel_region").doc(dataid);
+                var washingtonRef = db.collection("travel_region").doc(dataid);
 
-            // Set the "capital" field of the city 'DC'
-            return washingtonRef.update({
-                positive: positive_r.value
-            })
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    Swal.fire(
-                        'Good job!',
-                        'แก้ไขข้อมูลเรียบร้อย',
-                        'success'
-                    )
-                    location.reload();
-
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    positive: positive_r.value
                 })
-                .catch((error) => {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
             }
-           
+
 
 
         })

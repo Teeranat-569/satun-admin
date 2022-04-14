@@ -64,7 +64,7 @@
                             <input type="file" onchange="loadFile(event)" id="files" />
                             <br>
                             <div style="display: none; margin-top: 10px;" id="oppp">
-                                <img id="output" height="250px" />
+                                <img id="output" width="250px" />
                             </div>
                         </div>
                     </div>
@@ -128,6 +128,7 @@
                                 'บันทึกข้อมูลเรียบร้อย',
                                 'success'
                             )
+                            location.reload();
                         })
                         .catch((error) => {
                             console.error("Error writing document: ", error);
@@ -138,7 +139,7 @@
 
                 console.log('Uploaded a blob or file!');
                 // window.location = "./travel.html";  
- location.reload();
+//  
 
             });
             // alert("File Uploaded ")

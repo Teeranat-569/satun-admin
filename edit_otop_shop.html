@@ -51,7 +51,7 @@
                     </tr>
                 </tbody>
             </table>
-           <br>
+            <br>
             <table style="width: 100%; max-width: 800px;" class="table table-bordered">
                 <thead>
                     <tr>
@@ -120,10 +120,9 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input type="file" onchange="loadFile(event)" id="files" />
-                            <br>
-                            <div style="display: none; margin-top: 10px;" id="oppp">
-                                <img id="output" height="250px" />
+                            <input type='file' class="form-control-file" id="files" multiple required> <br>
+                            <div style=" margin-top: 10px;" id="myImg">
+                                <!-- <img id="output" height="250px" /> -->
                             </div>
                         </td>
                         <td style="text-align: center;">
@@ -174,11 +173,14 @@
                 var travel_map = document.getElementById("travel_map").innerHTML = data.store_map;
                 var phone = document.getElementById("phone").innerHTML = data.store_phone;
                 var jj = data.store_pic;
-                let row = `
-                            <div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div>
+                for (let index = 0; index < jj.length; index++) {
+                    let row = `
+                            <div style="width: 200px;"><a href="${data.store_pic[index]}" target="_blank"><img src="${data.store_pic[index]}" width="200px"/></a></div>
                      `;
-                let table = document.getElementById('pico');
-                table.innerHTML = row
+                    let table = document.getElementById('pico');
+                    table.innerHTML += row
+
+                }
 
             } else {
                 console.log("No such document!");
@@ -190,7 +192,7 @@
         var storeNamer = document.getElementById("InputTravel");
         var store_r = document.getElementById("inputDetail");
         var store_map_r = document.getElementById("InputMap");
-        var store_phone_r= document.getElementById("inputphone");
+        var store_phone_r = document.getElementById("inputphone");
 
         save.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", storeNamer.value);
@@ -302,8 +304,8 @@
             }
         })
 
-          // --------------------------------------------------------
-          save_phone.addEventListener("click", function () {
+        // --------------------------------------------------------
+        save_phone.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_phone_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
@@ -338,67 +340,100 @@
             }
         })
         // -----------------------------------------------------------------------
-        save_pic.addEventListener("click", function () {
-            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            var output2 = document.getElementById('oppp');
+        function uploadImageAsPromise(imageFile) {
+            // return new Promise(function (resolve, reject) {
             var storageRef = firebase.storage().ref();
-            // Get the file from DOM
-            var file = document.getElementById("files").files[0];
-            console.log(file);
-            //dynamically set reference to the file name
-            if (file == undefined) {
-                output2.style.display = "none";
+            var sumRef = [];
+            const photoArray = [];
+            const uploadTasks = [];
+            for (let index = 0; index < imageFile.length; index++) {
+                uploadTasks.push(handleUpload(imageFile[index]));
+                var thisRef = storageRef.child("otop/otop_store/otop_store_" + imageFile[index].name);
+                sumRef.push(thisRef);
+            }
+            console.log(sumRef);
+
+            Promise.all(uploadTasks).then(() => {
+                console.log(photoArray); // OUTPUTS THE ARRAY
+                var washingtonRef = db.collection("otop_store").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    store_pic: photoArray
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            });
+
+            function handleUpload(file) {
+                var storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child("pp/" + file.name);
+
+                return fileRef.put(file).then(() => {
+                    return fileRef.getDownloadURL().then(function (url) {
+                        photoArray.push(url);
+                    });
+                });
+
+            }
+        }
+
+        // --------------------------------------------------------------------------------
+        save_pic.addEventListener("click", function () {
+            var fileInput = document.getElementById("files");
+            files = fileInput.files;
+            console.log('xxxxxxxxxxxxxxxhhh' + files.length);
+
+            if (files == undefined) {
+                // output2.style.display = "none";
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
                     text: 'กรุณาอัปโหลดรูปภาพ'
                 })
             }
-            else {
-
-                // var thisRef = storageRef.child("otop/otop_store/otop_store_" + file.name);
-                // //put request upload file to firebase storage
-                // thisRef.put(file).then(function (snapshot) {
-                //     firebase.storage().ref("otop/otop_store/otop_store_" + file.name).getDownloadURL().then(function (url) {
-                //         console.log("lllllllllllllllllllllllllllllll", url);
-                //         var washingtonRef = db.collection("travel").doc(dataid);
-                //         // Set the "capital" field of the city 'DC'
-                //         return washingtonRef.update({
-                //             store_pic: url
-                //         })
-                //             .then(() => {
-                //                 console.log("Document successfully updated!");
-                //                 Swal.fire(
-                //                     'Good job!',
-                //                     'แก้ไขข้อมูลเรียบร้อย',
-                //                     'success'
-                //                 )
-                //                 location.reload();
-
-                //             })
-                //             .catch((error) => {
-                //                 // The document probably doesn't exist.
-                //                 console.error("Error updating document: ", error);
-                //             });
-
-
-                //     })
-                // });
-
-                // console.log('Uploaded a blob or file!');
-                // window.location = "./travel.html";  
-                // location.reload();
+            else if (files.length < 3) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
+                })
             }
+            else {
+                uploadImageAsPromise(files);
 
-
-
-
+            }
         });
         // alert("File Uploaded ")
+        // 9999999999999999999999999999999999999999999999999999999999999999999999999
+        $(function () {
+            $(":file").change(function () {
+                if (this.files && this.files[0]) {
+                    for (var i = 0; i < this.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[i]);
+                    }
+                }
+            });
+        });
 
-
-
-
+        function imageIsLoaded(e) {
+            $('#myImg').append('<img src=' + e.target.result + ' height="250px">');
+        };
         // ----------------------------------------------------------------------------
         function loadFile(n) {
             var output = document.getElementById('output');

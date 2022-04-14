@@ -195,11 +195,7 @@
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
-                        Swal.fire(
-                            'Good job!',
-                            'แก้ไขข้อมูลเรียบร้อย',
-                            'success'
-                        )
+
                         location.reload();
 
                     })
@@ -207,10 +203,12 @@
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
-
-
+                Swal.fire(
+                    'Good job!',
+                    'แก้ไขข้อมูลเรียบร้อย',
+                    'success'
+                )
             }
-
         })
         // -------------------------------------------------------------------------
         save_positive.addEventListener("click", function () {

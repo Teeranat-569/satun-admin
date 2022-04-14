@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สินค้า OTOP</title>
+    <title>ชื่อสถานที่ท่องเที่ยว</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -39,27 +39,15 @@
     <div id="includedContent"></div>
 
     <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
-        <h2>สินค้า OTOP</h2>
+        <h2>สถานที่ท่องเที่ยว หมวดหมู่ : ทะเล</h2>
         <hr>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10"></div>
-                <div class="col-md-2">
-                    <center>
-                        <a class="btn btn-sm btn-primary" href="./add_otop.html"><i
-                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
-                            เพิ่มข้อมูล</a>
-                    </center>
-                </div>
-            </div>
-        </div>
         <br>
         <div id="showdata">
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่อสินค้า OTOP</th>
-                        <th scope="col" style="width: 500px;">ข้อมูลสินค้า</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
+                        <th scope="col">ชื่อสถานที่ท่องเที่ยว</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -67,10 +55,8 @@
                 </thead>
                 <tbody id="myTable">
                 </tbody>
-
             </table>
         </div>
-       
     </div>
 
     <script>
@@ -89,62 +75,40 @@
         // -----------------------------------------------
         const db = firebase.firestore()
         const save = document.querySelector("#save");
-
-        // db.collection("otop")
-        //     .get()
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-        //             // doc.data() is never undefined for query doc snapshots
-        //             console.log(doc.id, " => ", doc.data());
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.log("Error getting documents: ", error);
-        //     })
-
-        db.collection("otop")
+        db.collection("travel_name")
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(doc => {
                     let data = doc.data();
-                    var num;
-                    for (var i = 0; i < data.length; i++) {
-
-                        console.log('nnnnnnnnnnnnnn', i);
-
+                    function mm(order) {
+                        console.log("order ID: ", order.id)
                     }
                     let row = `<tr style="text-align: left;">
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
-                            <td><div style="width: 150px; word-wrap:break-word;">${data.otop_name}</div></td>
-                            <td><div style="width: 500px; word-wrap:break-word;">${data.data}</div></td>
-                            <td style="text-align: center;"><div style="width: 200px;"><a href="${data.otop_pic}" target="_blank"><img src="${data.otop_pic}" width="200px"/></a></div></td>
-                            <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
-                                class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.otop_name}')"><i
-                                class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
+                            <td><div style="width: 150px;">${data.name}</div></td>
+                            <td style="text-align: center;"><div style="width: 200px;"><a href="${data.pic}" target="_blank"><img src="${data.pic}" width="200px"/></a></div></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.travelName}')" id="btn2"><i
+                                class="fa-solid fa-trash-can" ></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
-
-
-
                 })
             })
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-            // ////////////////////////////////////////////////////////
 
-            function getData(docid) {
+        // ************************************************************
+        function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
-            localStorage.setItem("txtValue_otop", docid);
-            window.location = "./edit_otop.html";
+            localStorage.setItem("txtValue", docid);
+            window.location = "./edit_travel_sea.html";
 
         }
-        // ***********************************************************************
-        function delData(docid, otopName) {
+        // ////////////////////////////////////////////////////////////////////
+        function delData(docid, travelName) {
             Swal.fire({
-                title: 'คุณต้องการลบ   ' + otopName + '   ใช่หรือไม่?',
+                title: 'คุณต้องการลบ   ' + travelName + '   ใช่หรือไม่?',
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: 'ใช่',
@@ -156,11 +120,11 @@
                     denyButton: 'order-3',
                 }
             }).then((result) => {
-                if (result.isConfirmed) { 
+                if (result.isConfirmed) {
+                    
                     Swal.fire('ลบเรียบร้อย', '', 'success')
-                    db.collection("otop").doc(docid).delete().then(() => {
+                    db.collection("travel").doc(docid).delete().then(() => {
                         console.log("Document successfully deleted!");
-                       
                         location.reload();
                     }).catch((error) => {
                         console.error("Error removing document: ", error);
@@ -170,6 +134,7 @@
                 }
             });
         }
+
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -187,7 +152,6 @@
             }
         });
     </script>
-
 
 </body>
 

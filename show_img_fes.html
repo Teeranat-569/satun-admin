@@ -61,19 +61,19 @@
         var save = document.getElementById("#save");
         var dd = document.getElementsByClassName(".profile-img");
         // ////////////////////////////////////////////////////////////////////
-        var dataid = localStorage.getItem("txtValue_otopshop_img");
-        var docRef = db.collection("otop_store").doc(dataid);
+        var dataid = localStorage.getItem("txtValue_fes_img");
+        var docRef = db.collection("festival").doc(dataid);
         console.log('rerrrrrrrr---------------------rrr', dataid);
 
         docRef.get().then((doc) => {
             if (doc.exists) {
                 console.log("Document data:", doc.data());
                 var data = doc.data();
-                var jj = data.store_pic;
+                var jj = data.fes_pic;
 
                 for (let index = 0; index < jj.length; index++) {
                     let row = `<tr style="text-align: left;">
-                            <td><div style="width: 400px; text-align: center;"><a href="${data.store_pic[index]}" target="_blank"><img src="${data.store_pic[index]}" width="300px" /></a></div></td>
+                            <td><div style="width: 400px; text-align: center;"><a href="${data.fes_pic[index]}" target="_blank"><img src="${data.fes_pic[index]}" width="300px" /></a></div></td>
                           
                      `;
                     let table = document.getElementById('pico');

@@ -58,10 +58,11 @@
             <table style="width:100%" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 200px;">ชื่อร้านอาหาร</th>
-                        <th scope="col" style="width: 500px;">ข้อมูลร้านอาหาร</th>
+                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
+                        <th scope="col" style="width: 200px;">ชื่อร้านอาหาร</th>
+                        <th scope="col" style="width: 500px;">ที่อยู่ร้านอาหาร</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
-                        <th scope="col" style="width: 200px;">ที่อยู่ร้าน</th>
+                        <th scope="col" style="width: 200px;">เบอร์โทร</th>
                         <th scope="col" style="width: 150px;">พิกัด</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -103,13 +104,14 @@
                     let row = `<tr style="text-align: left;">
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 200px;">${data.res_name}</div></td>
-                            <td><div style="width: 500px;">${data.res_data}</div></td>
-                            <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>
-                            <td><div style="width: 200px;">${data.res_address}</div></td>
+                            <td><div style="width: 500px;">${data.res_address}</div></td>
+                         <!--   <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>-->
+                         <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
+                         <td><div style="width: 200px;">${data.res_phone}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger"><i
+                    <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.res_name}')"><i
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
@@ -119,12 +121,49 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
+        // -------------------------------------------------------------------
 
         function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_res", docid);
             window.location = "./edit_food.html";
 
+        }
+        // 9999999999999999999999999999999999999999999999999999999999999999999
+        function getImg(docid) {
+            console.log('rerrrrrrrr---------------------rrr', docid);
+            localStorage.setItem("txtValue_food_img", docid);
+            window.location = "./show_img_food.html";
+
+        }
+        // ---------------------------------------------------------
+        function delData(docid, res_name) {
+            Swal.fire({
+                title: 'คุณต้องการลบร้าน   ' + res_name + '   ใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('ลบเรียบร้อย', '', 'success')
+                    db.collection("restaurant").doc(docid).delete().then(() => {
+                        console.log("Document successfully deleted!");
+
+                        location.reload();
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
         }
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
