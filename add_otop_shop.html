@@ -69,6 +69,31 @@
                             <input type="text" class="form-control" id="InputPhone" placeholder="เบอร์โทร" required>
                         </div>
                     </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <label for="Line">Line&nbsp;</label>
+                                <input type="text" class="form-control" id="Line" placeholder="Line">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="facebook">Facebook&nbsp;</label>
+                            <input type="text" class="form-control" id="facebook" placeholder="Facebook" >
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="col">
+                                <label for="website">Website&nbsp;</label>
+                                <input type="text" class="form-control" id="website" placeholder="Website">
+                            </div>
+                        </div>
+                       
+                    </div>
                     <br>
                     <div class="row">
                         <div class="col">
@@ -118,6 +143,10 @@
         var InputTravel = document.getElementById('InputTravel');
         var inputDetail = document.getElementById('inputDetail');
         var map = document.getElementById('inputMap');
+        var line = document.getElementById('Line');
+        var facebook = document.getElementById('facebook');
+        var website = document.getElementById('website');
+
         // 5555555555555555555555555555555555555555555555555555555555555555555
         db.collection("otop")
             .get()
@@ -167,6 +196,9 @@
                     store_address: inputDetail.value,
                     store_phone: phone.value,
                     store_map: map.value,
+                    store_Line: line.value,
+                    store_facebook: facebook.value,
+                    store_website: website.value,
                     // WORKS
                     store_pic: photoArray,    // SHOULD WORK NOW!
                 }).then(() => {
@@ -245,7 +277,7 @@
         });
 
         function imageIsLoaded(e) {
-            $('#myImg').append('<img src=' + e.target.result + ' height="250px">');
+            $('#myImg').append('<img src=' + e.target.result + ' width="250px">');
         };
 
         // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy

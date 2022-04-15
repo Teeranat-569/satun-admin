@@ -56,7 +56,7 @@
         <br>
         <div id="showdata">
             <table style="width:100%" class="table table-bordered">
-                <thead>
+                <thead style="text-align: center;">
                     <tr>
                         <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
                         <th scope="col" style="width: 200px;">ชื่อสินค้า OTOP</th>
@@ -64,6 +64,9 @@
                         <th scope="col" style="text-align: center; width: 200px;">รูปภาพ</th>
                         <th scope="col" style="width: 200px;">ที่อยู่ร้าน</th>
                         <th scope="col" style="width: 150px;">เบอร์โทร</th>
+                        <th scope="col" style="width: 150px;">Line</th>
+                        <th scope="col" style="width: 150px;">Facebook</th>
+                        <th scope="col" style="width: 150px;">Website</th>
                         <th scope="col" style="width: 150px;">พิกัด</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -111,7 +114,10 @@
                             <!--<td style="text-align: center;"><div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div></td>-->
                             <td><div style="width: 200px;">${data.store_address}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;">${data.store_phone}</div></td>
-                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
+                            <td style="text-align: center;"><div style="width: 150px;">${data.store_Line}</div></td>
+                            <td style="text-align: center; word-wrap:break-word;"><div style="width: 150px;">${data.store_facebook}</div></td>
+                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_website}" target="_blank"><i class="fa-solid fa-earth-americas"></i><br>คลิกเว็บไซต์</a></div></td>
+                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map}" target="_blank"><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
                     <td style="width: 200px;"><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.store_name}')"><i
