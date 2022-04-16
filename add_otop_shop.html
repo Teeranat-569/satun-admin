@@ -208,7 +208,7 @@
 
             function handleUpload(file) {
                 var storageRef = firebase.storage().ref();
-                const fileRef = storageRef.child("pp/" + file.name);
+                const fileRef = storageRef.child("otop/otop_shop/otop_shop_" + file.name);
 
                 return fileRef.put(file).then(() => {
                     return fileRef.getDownloadURL().then(function (url) {

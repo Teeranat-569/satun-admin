@@ -302,10 +302,10 @@
                 })
             }
             else {
-                var thisRef = storageRef.child("travel/travel_" + file.name);
+                var thisRef = storageRef.child("travel/travel_region_" + file.name);
                 //put request upload file to firebase storage
                 thisRef.put(file).then(function (snapshot) {
-                    firebase.storage().ref("travel/travel_" + file.name).getDownloadURL().then(function (url) {
+                    firebase.storage().ref("travel/travel_region_" + file.name).getDownloadURL().then(function (url) {
                         console.log("lllllllllllllllllllllllllllllll", url);
                         var washingtonRef = db.collection("travel_region").doc(dataid);
                         // Set the "capital" field of the city 'DC'
