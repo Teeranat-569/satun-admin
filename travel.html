@@ -35,6 +35,17 @@
     <div id="includedContent"></div>
 
     <div style="margin-left:210px ; margin-top: 20px; padding: 10px;">
+        <!-- <div class="container">
+            <div class="row">
+                <div class="col-md-10" style="text-align: end;"> </div>
+                <div class="col-md-2">
+                    <center>
+                        <h5 style="color: black;">ADMIN</h5>
+                        <button onclick="" id="signOut" class="btn btn-sm btn-outline-dark mb-3 w-20">Sign Out</button>
+                    </center>
+                </div>
+            </div>
+        </div> -->
         <h2>สถานที่ท่องเที่ยว</h2>
         <hr>
         <div class="container">
@@ -82,6 +93,38 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         // --------------------------------------------------------------------
+        const signout = document.querySelector("#signOut");
+
+        signout.addEventListener("click", function () {
+            Swal.fire({
+                title: 'คุณต้องการออกจากระบบใช่หรือไม่?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                denyButtonText: 'ไม่',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.preventDefault();
+                    auth.signOut();
+                    console.log('User signed out!');
+                    // firebase.auth().signOut().then(() => {
+                    window.location = "index.html";
+
+                    // }).catch((error) => {
+                    //     // An error happened.
+                    // });
+                } else if (result.isDenied) {
+                    // Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+                }
+            });
+        })
+        // *********************************************************
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties

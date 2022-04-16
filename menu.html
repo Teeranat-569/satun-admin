@@ -20,7 +20,7 @@
                 <i class="fa-solid fa-circle-user fa-5x" style="color: white;"></i>
                 <br>
                 <h3>ADMIN</h3>
-                <button onclick="" id="signOut" class="btn btn-sm btn-outline-light mb-3 w-50">Sign Out</button>
+                <!-- <button onclick="" id="signOut" class="btn btn-sm btn-outline-light mb-3 w-50">Sign Out</button> -->
             </center>
         </div>
         <ul>
@@ -48,7 +48,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const save = document.querySelector("#signOut");
+        const signout = document.querySelector("#signOut");
 
         save.addEventListener("click", function () {
             Swal.fire({
