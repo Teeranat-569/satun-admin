@@ -81,8 +81,6 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        // -----------------------------------------------
-
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -98,7 +96,6 @@
                 console.log("User is signed out");                // ...
                 // window.location = "home.html";
                 window.location = "index.html";
-
             }
         });
     </script>

@@ -37,13 +37,12 @@
 
 <body>
     <div id="includedContent"></div>
-
     <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
         <h2>ร้ายขายสินค้า OTOP</h2>
         <hr>
         <div class="container">
             <div class="row">
-                <div class="col-md-10"></div>
+
                 <div class="col-md-2">
                     <center>
                         <a class="btn btn-sm btn-primary" href="./add_otop_shop.html"><i
@@ -51,6 +50,7 @@
                             เพิ่มข้อมูล</a>
                     </center>
                 </div>
+                <div class="col-md-10"></div>
             </div>
         </div>
         <br>
@@ -113,8 +113,8 @@
                             <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
                             <!--<td style="text-align: center;"><div style="width: 200px;"><a href="${data.store_pic}" target="_blank"><img src="${data.store_pic}" width="200px"/></a></div></td>-->
                             <td><div style="width: 200px;">${data.store_address}</div></td>
-                            <td style="text-align: center;"><div style="width: 150px;">${data.store_phone}</div></td>
-                            <td style="text-align: center;"><div style="width: 150px;">${data.store_Line}</div></td>
+                            <td style="text-align: center;"><div style="width: 150px; word-wrap:break-word;">${data.store_phone}</div></td>
+                            <td style="text-align: center;"><div style="width: 150px; word-wrap:break-word;">${data.store_Line}</div></td>
                             <td style="text-align: center; word-wrap:break-word;"><div style="width: 150px;">${data.store_facebook}</div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_website}" target="_blank"><i class="fa-solid fa-earth-americas"></i><br>คลิกเว็บไซต์</a></div></td>
                             <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map}" target="_blank"><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
@@ -125,9 +125,6 @@
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
-
-
-
                 })
             })
             .catch(err => {
@@ -138,14 +135,12 @@
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_otopshop", docid);
             window.location = "./edit_otop_shop.html";
-
         }
         // -----------------------------------------------------------------------
         function getImg(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_otopshop_img", docid);
             window.location = "./show_img_otop_shop.html";
-
         }
         // -----------------------------------------------------------------------
         function delData(docid, store_name) {

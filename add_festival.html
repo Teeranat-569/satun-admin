@@ -61,6 +61,13 @@
                     <br>
                     <div class="row">
                         <div class="col">
+                            <label for="month">ช่วงจัดงานประจำปี&nbsp;<span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="month" placeholder="ช่วงจัดงานประจำปี" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
                             <label for="exampleFormControlFile1">รูปภาพ: &nbsp;<span
                                     style="color: red;">*</span></label>
                             <div>
@@ -77,6 +84,7 @@
     </div>
     <!-- tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt -->
     <script>
+        // เชื่อมต่อฐานข้อมูล ///////////////////////////////////////////////////////////////////////////
         var firebaseConfig = {
             apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
             authDomain: "stuncity-24791.firebaseapp.com",
@@ -95,9 +103,10 @@
         const upload = document.querySelector("#upload");
         var InputTravel = document.getElementById("InputTravel");
         var inputDetail = document.getElementById("inputDetail");
+        var month = document.getElementById("month");
         var gg = document.getElementById("files");
 
-        // ----------------------------------
+        // อัปโหลดและเพิ่มรูปลง Firebase Storage ----------------------------------
         function uploadImageAsPromise(imageFile) {
             // return new Promise(function (resolve, reject) {
             var storageRef = firebase.storage().ref();
@@ -112,25 +121,26 @@
             console.log(sumRef);
 
             Promise.all(uploadTasks).then(() => {
-                    console.log(photoArray); // OUTPUTS THE ARRAY
-                    const collectionRef = db.collection('festival');
-                    collectionRef.add({
-                        fes_name: InputTravel.value,   // WORKS
-                        fes_data: inputDetail.value,    // WORKS
-                        fes_pic: photoArray,    // SHOULD WORK NOW!
-                    }) .then(() => {
-                                console.log("Document successfully written!");
-                                Swal.fire(
-                                    'Good job!',
-                                    'บันทึกข้อมูลเรียบร้อย',
-                                    'success'
-                                )
-                                location.reload();
-                            })
-                            .catch((error) => {
-                                console.error("Error writing document: ", error);
-                            });;
-                });
+                console.log(photoArray); // OUTPUTS THE ARRAY
+                const collectionRef = db.collection('festival');
+                collectionRef.add({
+                    fes_name: InputTravel.value,   // WORKS
+                    fes_data: inputDetail.value,
+                    fes_month: month.value,   // WORKS
+                    fes_pic: photoArray,    // SHOULD WORK NOW!
+                }).then(() => {
+                    console.log("Document successfully written!");
+                    Swal.fire(
+                        'Good job!',
+                        'บันทึกข้อมูลเรียบร้อย',
+                        'success'
+                    )
+                    location.reload();
+                })
+                    .catch((error) => {
+                        console.error("Error writing document: ", error);
+                    });;
+            });
 
             function handleUpload(file) {
                 var storageRef = firebase.storage().ref();
@@ -145,24 +155,8 @@
             }
 
         }
-        // ********************************************************************************
-        // rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+        // ปุ่มคลิกเพื่อตรวจสอบและเพิ่มรูปภาพ ********************************************************************************
         var files = [];
-        // gg.addEventListener("change", function (e) {
-        //     files = e.target.files;
-        //     console.log(e.target.files);
-        //     console.log('xxxxxxxxxxxxxxxhhh' + e.target.files.length);
-        //     if (files.length < 3) {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'ผิดพลาด',
-        //             text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
-        //         })
-        //     }
-        //     else {
-        //     }
-        // });
-        // +++++++++++++++++++++++++++++++++
         save.addEventListener("click", function () {
             var fileInput = document.getElementById("files");
             files = fileInput.files;
@@ -180,7 +174,7 @@
 
             }
         })
-        // ---------------------------------------------------------
+        // แสดงรูปภาพตอนก่อนอัปโหลด ---------------------------------------------------------
         $(function () {
             $(":file").change(function () {
                 if (this.files && this.files[0]) {
@@ -196,8 +190,7 @@
         function imageIsLoaded(e) {
             $('#myImg').append('<img src=' + e.target.result + ' height = "200px">');
         };
-        // ---------------------------------------------------------
-        // --------------------------------------------------------------------
+        // ตรวจสอบการเข้าสู่ระบบ --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -217,4 +210,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -54,8 +54,8 @@
                     <div class="row">
                         <div class="col">
                             <label for="inputDetail">ที่อยู่ร้านอาหาร&nbsp;<span style="color: red;">*</span></label>
-                            <textarea class="form-control" aria-label="With textarea" id="inputDetail" placeholder="ที่อยู่ร้านอาหาร"
-                                required></textarea>
+                            <textarea class="form-control" aria-label="With textarea" id="inputDetail"
+                                placeholder="ที่อยู่ร้านอาหาร" required></textarea>
 
                             <!-- <input type="text" class="form-control" id="inputDetail" placeholder="ลักษณะเด่น"> -->
                         </div>
@@ -75,8 +75,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <label for="files" >รูปภาพ: &nbsp;<span
-                                    style="color: red;">*</span></label>
+                            <label for="files">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
                             <input type="file" class="form-control-file" id="files" multiple required>
                         </div>
                         <div id="myImg"></div>
@@ -90,6 +89,7 @@
     </div>
 
     <script>
+        // เชื่อมต่อฐานข้อมูล ///////////////////////////////////////////////////////////////////////////
         var firebaseConfig = {
             apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
             authDomain: "stuncity-24791.firebaseapp.com",
@@ -111,20 +111,8 @@
         var InputTravel = document.getElementById('InputTravel');
         var inputDetail = document.getElementById('inputDetail');
         var map = document.getElementById('inputMap');
-        // 5555555555555555555555555555555555555555555555555555555555555555555
-        // ----------------------------------
-        //Listen for file selection
-        // gg.addEventListener('change', function (e) {
-        //     var sumFile = [];
-        //     //Get files
-        //     for (var i = 0; i < e.target.files.length; i++) {
-        //         var imageFile = e.target.files[i];
-        //         sumFile.push(imageFile);
-        //         uploadImageAsPromise(sumFile);
-        //     }
-        //     console.log(sumFile);
-        // });
-        // 55555555555555555555555555555555555555555555555555555555555555555555555555555
+        
+        // อัปโหลดและเพิ่มรูปลง Firebase Storage 55555555555555555555555555555555555555555555555555555555555555555555555555555
         function uploadImageAsPromise(imageFile) {
             // return new Promise(function (resolve, reject) {
             var storageRef = firebase.storage().ref();
@@ -178,23 +166,8 @@
 
             }
         }
-        // 5566666666666666666666666666666666666666666666666666666666666666666666666
+        // ปุ่มคลิกเพื่อตรวจสอบและเพิ่มข้อมูล  5566666666666666666666666666666666666666666666666666666666666666666666666
         var files = [];
-        // gg.addEventListener("change", function (e) {
-        //     files = e.target.files;
-        //     console.log(e.target.files);
-        //     console.log('xxxxxxxxxxxxxxxhhh' + e.target.files.length);
-        //     if (files.length < 3) {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'ผิดพลาด',
-        //             text: 'โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป'
-        //         })
-        //     }
-        //     else {
-        //     }
-        // });
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         save.addEventListener("click", function () {
             var fileInput = document.getElementById("files");
             files = fileInput.files;
@@ -212,7 +185,7 @@
 
             }
         })
-        // ---------------------------------------------------
+        //  แสดงรูปภาพตอนก่อนอัปโหลด---------------------------------------------------
         $(function () {
             $(":file").change(function () {
                 if (this.files && this.files[0]) {
@@ -229,16 +202,15 @@
             $('#myImg').append('<img src=' + e.target.result + ' height="250px" width="400px">');
         };
 
-        // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 var uid = user.uid;
                 console.log("Signin ", uid);                // ...
             } else {
-                console.log("User is signed out");   
+                console.log("User is signed out");
                 window.location = "index.html";
-             // ...
+                // ...
             }
         });
     </script>

@@ -132,8 +132,6 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- <button type="submit" class="btn btn-primary" onclick="update" id="save">Submit</button> -->
-
         </div>
     </div>
 
@@ -391,13 +389,11 @@
         }
         // -----------------------------------------------------------------------
         save_pic.addEventListener("click", function () {
-            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             var fileInput = document.getElementById("files");
             files = fileInput.files;
             console.log('xxxxxxxxxxxxxxxhhh' + files.length);
 
             if (files == undefined) {
-                // output2.style.display = "none";
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
@@ -416,8 +412,6 @@
 
             }
         });
-        // alert("File Uploaded ")
-        // ---------------------------------------------------------------------------
         // 55555555555555555555555555555555555555555555555555
         $(function () {
             $(":file").change(function () {
@@ -452,7 +446,6 @@
 
             }
         });
-        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     </script>
 </body>
 

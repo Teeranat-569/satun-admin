@@ -46,7 +46,8 @@
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
                     <center>
-                        <a class="btn btn-sm btn-primary" href="./add_festival.html"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;
+                        <a class="btn btn-sm btn-primary" href="./add_festival.html"><i
+                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
                             เพิ่มข้อมูล</a>
                     </center>
                 </div>
@@ -55,11 +56,12 @@
         <br>
         <div id="showdata">
             <table style="width:100%" class="table table-bordered">
-                <thead>
+                <thead style="text-align: center;">
                     <tr>
                         <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
                         <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่องานประจำปี</th>
                         <th scope="col" style="width: 500px;">ข้อมูลงานประจำปี</th>
+                        <th scope="col" style="width: 200px;">ช่วงจัดงานประจำปี</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -101,6 +103,8 @@
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
                             <td><div style="width: 150px;">${data.fes_name}</div></td>
                             <td><div style="width: 500px;">${data.fes_data}</div></td>
+                            <td><div style="width: 200px;">${data.fes_month}</div></td>
+
                             <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
 
                        <!--     <td style="text-align: center;"><div style="width: 200px;"><a href="${data.fes_pic}" target="_blank"><img src="${data.fes_pic}" width="200px"/></a></div></td>-->
@@ -116,21 +120,17 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-            // -------------------------------------------
-
-            function getData(docid) {
+        // -------------------------------------------
+        function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_fes", docid);
             window.location = "./edit_festival.html";
-
-
         }
         // -----------------------------------------------
         function getImg(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_fes_img", docid);
             window.location = "./show_img_fes.html";
-
         }
         // ----------------------------------------------------------
         function delData(docid, store_name) {
@@ -176,13 +176,8 @@
                 console.log("User is signed out");                // ...
                 // window.location = "home.html";
                 window.location = "index.html";
-
             }
         });
     </script>
-
-
-
 </body>
-
 </html>

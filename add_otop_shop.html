@@ -147,7 +147,7 @@
         var facebook = document.getElementById('facebook');
         var website = document.getElementById('website');
 
-        // 5555555555555555555555555555555555555555555555555555555555555555555
+        // แสดงจ้อมูลบน tag select 5555555555555555555555555555555555555555555555555555555555555555555
         db.collection("otop")
             .get()
             .then(querySnapshot => {
@@ -161,18 +161,7 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-        // ----------------------------------
-        //Listen for file selection
-        // gg.addEventListener('change', function (e) {
-        //     var sumFile = [];
-        //     //Get files
-        //     for (var i = 0; i < e.target.files.length; i++) {
-        //         var imageFile = e.target.files[i];
-        //         sumFile.push(imageFile);
-        //         uploadImageAsPromise(sumFile);
-        //     }
-        //     console.log(sumFile);
-        // });
+        
         // 55555555555555555555555555555555555555555555555555555555555555555555555555555
         function uploadImageAsPromise(imageFile) {
             // return new Promise(function (resolve, reject) {

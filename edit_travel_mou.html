@@ -178,8 +178,6 @@
         save.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", travelNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
-
-
             if (travelNamer.value == '') {
                 Swal.fire({
                     icon: 'error',
@@ -188,7 +186,6 @@
                 })
             } else {
                 var washingtonRef = db.collection("travel_mountain").doc(dataid);
-
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
                     travelName: travelNamer.value
@@ -201,14 +198,11 @@
                             'success'
                         )
                         location.reload();
-
                     })
                     .catch((error) => {
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
-
-
             }
 
         })
@@ -224,29 +218,27 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
- var washingtonRef = db.collection("travel_mountain").doc(dataid);
+                var washingtonRef = db.collection("travel_mountain").doc(dataid);
 
-            // Set the "capital" field of the city 'DC'
-            return washingtonRef.update({
-                positive: positive_r.value
-            })
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    Swal.fire(
-                        'Good job!',
-                        'แก้ไขข้อมูลเรียบร้อย',
-                        'success'
-                    )
-                    location.reload();
-
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    positive: positive_r.value
                 })
-                .catch((error) => {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
 
             }
-           
 
         })
         // --------------------------------------------------------
@@ -283,10 +275,6 @@
                     });
 
             }
-
-
-
-
         })
         // -----------------------------------------------------------------------
         save_pic.addEventListener("click", function () {
@@ -306,7 +294,6 @@
                 })
             }
             else {
-
                 var thisRef = storageRef.child("travel/travel_" + file.name);
                 //put request upload file to firebase storage
                 thisRef.put(file).then(function (snapshot) {
@@ -325,32 +312,17 @@
                                     'success'
                                 )
                                 location.reload();
-
                             })
                             .catch((error) => {
                                 // The document probably doesn't exist.
                                 console.error("Error updating document: ", error);
                             });
-
-
                     })
                 });
 
                 console.log('Uploaded a blob or file!');
-                // window.location = "./travel.html";  
-                // location.reload();
-                
             }
-
-
-
-
         });
-        // alert("File Uploaded ")
-
-
-
-
         // ----------------------------------------------------------------------------
         function loadFile(n) {
             var output = document.getElementById('output');
@@ -359,11 +331,11 @@
 
             if (file == undefined) {
                 output2.style.display = "none";
-                // Swal.fire({
-                //         icon: 'error',
-                //         title: 'Oops...',
-                //         text: 'Something went wrong!'
-                //     })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาอัปโหลดรูปภาพ'
+                })
             }
             else {
 
@@ -388,9 +360,9 @@
             } else {
                 // User is signed out
                 // ...
-                console.log("User is signed out");   
+                console.log("User is signed out");
                 window.location = "index.html";
-             // ...
+                // ...
                 // window.location = "home.html";
             }
         });

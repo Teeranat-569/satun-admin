@@ -224,70 +224,31 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
- var washingtonRef = db.collection("otop").doc(dataid);
+                var washingtonRef = db.collection("otop").doc(dataid);
 
-            // Set the "capital" field of the city 'DC'
-            return washingtonRef.update({
-                data: otop_r.value
-            })
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    Swal.fire(
-                        'Good job!',
-                        'แก้ไขข้อมูลเรียบร้อย',
-                        'success'
-                    )
-                    location.reload();
-
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    data: otop_r.value
                 })
-                .catch((error) => {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
 
             }
-           
+
 
         })
-        // --------------------------------------------------------
-        // save_map.addEventListener("click", function () {
-        //     console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", travel_map_r.value);
-        //     console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
-
-        //     if (travel_map_r.value == '') {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'ผิดพลาด',
-        //             text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
-        //         })
-        //     } else {
-        //         var washingtonRef = db.collection("travel_mountain").doc(dataid);
-
-        //         // Set the "capital" field of the city 'DC'
-        //         return washingtonRef.update({
-        //             travel_map: travel_map_r.value
-        //         })
-        //             .then(() => {
-        //                 console.log("Document successfully updated!");
-        //                 Swal.fire(
-        //                     'Good job!',
-        //                     'แก้ไขข้อมูลเรียบร้อย',
-        //                     'success'
-        //                 )
-        //                 location.reload();
-
-        //             })
-        //             .catch((error) => {
-        //                 // The document probably doesn't exist.
-        //                 console.error("Error updating document: ", error);
-        //             });
-
-        //     }
-
-
-
-
-        // })
         // -----------------------------------------------------------------------
         save_pic.addEventListener("click", function () {
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -306,7 +267,6 @@
                 })
             }
             else {
-
                 var thisRef = storageRef.child("otop/otop_" + file.name);
                 //put request upload file to firebase storage
                 thisRef.put(file).then(function (snapshot) {
@@ -325,32 +285,16 @@
                                     'success'
                                 )
                                 location.reload();
-
                             })
                             .catch((error) => {
                                 // The document probably doesn't exist.
                                 console.error("Error updating document: ", error);
                             });
-
-
                     })
                 });
-
                 console.log('Uploaded a blob or file!');
-                // window.location = "./travel.html";  
-                // location.reload();
-                
             }
-
-
-
-
         });
-        // alert("File Uploaded ")
-
-
-
-
         // ----------------------------------------------------------------------------
         function loadFile(n) {
             var output = document.getElementById('output');
@@ -359,14 +303,13 @@
 
             if (file == undefined) {
                 output2.style.display = "none";
-                // Swal.fire({
-                //         icon: 'error',
-                //         title: 'Oops...',
-                //         text: 'Something went wrong!'
-                //     })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาอัปโหลดรูปภาพ'
+                })
             }
             else {
-
                 output2.style.display = "block";
                 output.src = URL.createObjectURL(n.target.files[0]);
                 output.onload = function () {
@@ -388,9 +331,9 @@
             } else {
                 // User is signed out
                 // ...
-                console.log("User is signed out");     
+                console.log("User is signed out");
                 window.location = "index.html";
-           // ...
+                // ...
                 // window.location = "home.html";
             }
         });

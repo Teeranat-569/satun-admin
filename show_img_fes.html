@@ -78,34 +78,13 @@
                      `;
                     let table = document.getElementById('pico');
                     table.innerHTML += row
-                    // -----------------------------------------------------------
-                    // save[index].removeEventListener('click', vv(index), false);
                 }
-
-                //  for (let index = 0; index < jj.length; index++) {
-                //     //  const element = array[index];
-                //    save[index].addEventListener('click', vv(index), false);
-
-
-                //  }
             } else {
                 console.log("No such document!");
             }
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
-        // *****************************************************************
-        // ////////////////////////////////////////////////////////
-        // dd.addEventListener("change", function () {
-
-        // $(".profile-img").change(function () {
-        //     readURL(this);
-        //     console.log(this);
-
-        // });
-        // ***********************************************************************
-
-        // ///////////////////////////////////////////////////////////
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

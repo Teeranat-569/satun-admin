@@ -179,7 +179,6 @@
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", travelNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
-
             if (travelNamer.value == '') {
                 Swal.fire({
                     icon: 'error',
@@ -207,10 +206,7 @@
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
-
-
             }
-
         })
         // -------------------------------------------------------------------------
         save_positive.addEventListener("click", function () {
@@ -224,30 +220,27 @@
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
- var washingtonRef = db.collection("travel_waterfall").doc(dataid);
+                var washingtonRef = db.collection("travel_waterfall").doc(dataid);
 
-            // Set the "capital" field of the city 'DC'
-            return washingtonRef.update({
-                positive: positive_r.value
-            })
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    Swal.fire(
-                        'Good job!',
-                        'แก้ไขข้อมูลเรียบร้อย',
-                        'success'
-                    )
-                    location.reload();
-
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    positive: positive_r.value
                 })
-                .catch((error) => {
-                    // The document probably doesn't exist.
-                    console.error("Error updating document: ", error);
-                });
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
 
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
             }
-           
-
         })
         // --------------------------------------------------------
         save_map.addEventListener("click", function () {
@@ -281,12 +274,7 @@
                         // The document probably doesn't exist.
                         console.error("Error updating document: ", error);
                     });
-
             }
-
-
-
-
         })
         // -----------------------------------------------------------------------
         save_pic.addEventListener("click", function () {
@@ -306,7 +294,6 @@
                 })
             }
             else {
-
                 var thisRef = storageRef.child("travel/travel_" + file.name);
                 //put request upload file to firebase storage
                 thisRef.put(file).then(function (snapshot) {
@@ -325,31 +312,16 @@
                                     'success'
                                 )
                                 location.reload();
-
                             })
                             .catch((error) => {
                                 // The document probably doesn't exist.
                                 console.error("Error updating document: ", error);
                             });
-
-
                     })
                 });
-
                 console.log('Uploaded a blob or file!');
-                // window.location = "./travel.html";  
-                // location.reload();
             }
-
-
-
-
         });
-        // alert("File Uploaded ")
-
-
-
-
         // ----------------------------------------------------------------------------
         function loadFile(n) {
             var output = document.getElementById('output');
@@ -357,12 +329,12 @@
             var file = document.getElementById("files").files[0];
 
             if (file == undefined) {
-                output2.style.display = "none";
-                // Swal.fire({
-                //         icon: 'error',
-                //         title: 'Oops...',
-                //         text: 'Something went wrong!'
-                //     })
+                // output2.style.display = "none";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาอัปโหลดรูปภาพ'
+                })
             }
             else {
 

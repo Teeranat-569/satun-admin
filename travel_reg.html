@@ -101,7 +101,6 @@
                     for (var i = 0; i < data.length; i++) {
 
                         console.log('nnnnnnnnnnnnnn', i);
-
                     }
                     let row = `<tr style="text-align: left;">
                         <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
@@ -117,16 +116,12 @@
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
-
-
-
                 })
             })
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
         function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_reg", docid);
@@ -181,13 +176,5 @@
             }
         });
     </script>
-
-
-
-
-
-
-
 </body>
-
 </html>

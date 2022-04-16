@@ -133,10 +133,8 @@
                 })
             }
             console.log(file);
-
             //dynamically set reference to the file name
             var thisRef = storageRef.child("travel/travel_" + file.name);
-            //put request upload file to firebase storage
             thisRef.put(file).then(function (snapshot) {
                 firebase.storage().ref("travel/travel_" + file.name).getDownloadURL().then(function (url) {
                     console.log('tttttttttttttttt' + url);
@@ -155,11 +153,6 @@
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
-                                // Swal.fire(
-                                //     'Good job!',
-                                //     'บันทึกข้อมูลเรียบร้อย',
-                                //     'success'
-                                // )
                                 location.reload();
                             })
                             .catch((error) => {
@@ -176,11 +169,6 @@
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
-                                // Swal.fire(
-                                //     'Good job!',
-                                //     'บันทึกข้อมูลเรียบร้อย',
-                                //     'success'
-                                // )
                                 location.reload();
                             })
                             .catch((error) => {
@@ -197,11 +185,6 @@
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
-                                // Swal.fire(
-                                //     'Good job!',
-                                //     'บันทึกข้อมูลเรียบร้อย',
-                                //     'success'
-                                // )
                                 location.reload();
                             })
                             .catch((error) => {
@@ -218,24 +201,12 @@
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
-                                // Swal.fire(
-                                //     'Good job!',
-                                //     'บันทึกข้อมูลเรียบร้อย',
-                                //     'success'
-                                // )
                                 location.reload();
                             })
                             .catch((error) => {
                                 console.error("Error writing document: ", error);
                             });
                     }
-
-                    // for (let index = 0; index < InputTravel.value.length; index++) {
-                    //     const element = array[index];
-                    //     restaurant
-                    // }
-
-                    // console.log(InputTravel.value.lenght);
                     var splitList = InputTravel.value.split(' ');
                     var indexList = [];
                     for (var i = 0; i < splitList.length; i++) {
@@ -243,43 +214,32 @@
                             indexList.push(splitList[i].substring(0, j).toLowerCase());
                         }
                     }
-                                        console.log(indexList);
+                    console.log(indexList);
 
                     db.collection("travel_name").doc().set({
-                            name: InputTravel.value,
-                            pic: url,
-                            searchIndex: indexList
-
+                        name: InputTravel.value,
+                        pic: url,
+                        searchIndex: indexList
+                    })
+                        .then(() => {
+                            console.log("Document successfully written!");
+                            Swal.fire(
+                                'Good job!',
+                                'บันทึกข้อมูลเรียบร้อย',
+                                'success'
+                            )
+                            location.reload();
                         })
-                            .then(() => {
-                                console.log("Document successfully written!");
-                                Swal.fire(
-                                    'Good job!',
-                                    'บันทึกข้อมูลเรียบร้อย',
-                                    'success'
-                                )
-                                // location.reload();
-                            })
-                            .catch((error) => {
-                                console.error("Error writing document: ", error);
-                            });
-
-
+                        .catch((error) => {
+                            console.error("Error writing document: ", error);
+                        });
                 });
-
-                // console.log('Uploaded a blob or file!');
-                // window.location = "./travel.html";  
-                // location.reload();
-
-
-
             });
             Swal.fire(
                 'Good job!',
                 'บันทึกข้อมูลเรียบร้อย',
                 'success'
             )
-            // 
         })
         // ---------------------------------------------------------
         function loadFile(n) {
@@ -292,14 +252,6 @@
                 console.log('ffffffffffffffsssssssssss', output.src);
             }
         };
-
-        // function resetForm() {
-        //     $('#hh')[0].reset();
-        //     var output2 = document.getElementById('oppp');
-        //     output2.style.display = "none";
-        // }
-
-
         // --------------------------------------------------------------------
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

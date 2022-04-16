@@ -114,6 +114,45 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Line</td>
+                        <td id="line"></td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="inputline" placeholder="line">
+                        </td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
+                                id="save_line" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Facebook</td>
+                        <td id="facebook"></td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="inputfacebook" placeholder="ใส่ลิ้งค์จาก Facebook">
+                        </td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
+                                id="save_facebook" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td id="website"></td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="inputwebsite" placeholder="ใส่ลิ้งค์จาก website">
+                        </td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
+                                id="save_website" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>รูปภาพ</td>
                         <td id="pico"></td>
                     </tr>
@@ -157,6 +196,9 @@
         const save_positive = document.querySelector("#save_positive");
         const save_map = document.querySelector("#save_map");
         const save_phone = document.querySelector("#save_phone");
+        const save_line = document.querySelector("#save_line");
+        const save_facebook = document.querySelector("#save_facebook");
+        const save_website = document.querySelector("#save_website");
 
 
         var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_otopshop");
@@ -172,6 +214,10 @@
                 var store_address = document.getElementById("positive").innerHTML = data.store_address;
                 var travel_map = document.getElementById("travel_map").innerHTML = data.store_map;
                 var phone = document.getElementById("phone").innerHTML = data.store_phone;
+                var line = document.getElementById("line").innerHTML = data.store_Line;
+                var facebook = document.getElementById("facebook").innerHTML = data.store_facebook;
+                var website = document.getElementById("website").innerHTML = data.store_website;
+
                 var jj = data.store_pic;
                 for (let index = 0; index < jj.length; index++) {
                     let row = `
@@ -193,6 +239,10 @@
         var store_r = document.getElementById("inputDetail");
         var store_map_r = document.getElementById("InputMap");
         var store_phone_r = document.getElementById("inputphone");
+        var store_line_r = document.getElementById("inputline");
+        var store_facebook_r = document.getElementById("inputfacebook");
+        var store_website_r = document.getElementById("inputwebsite");
+
 
         save.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", storeNamer.value);
@@ -339,6 +389,112 @@
 
             }
         })
+        // ///////////////////////////////////////////////////////////////////////////////////////
+        save_line.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_map_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+            if (store_line_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("otop_store").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    store_Line: store_line_r.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            }
+        })
+        // //////////////////////////////////////////////////////////////////////////
+        save_facebook.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_map_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+            if (store_facebook_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("otop_store").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    store_facebook: store_facebook_r.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            }
+        })
+        // 5555555555555555555555555555555555555555555555555555555555555555555
+        save_website.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", store_website_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+            if (store_website_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("otop_store").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    store_website: store_website_r.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            }
+        })
+
         // -----------------------------------------------------------------------
         function uploadImageAsPromise(imageFile) {
             // return new Promise(function (resolve, reject) {

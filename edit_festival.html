@@ -87,19 +87,6 @@
                                     class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
                         </td>
                     </tr>
-                    <!-- <tr>
-                        <td>Google Map</td>
-                        <td id="travel_map"></td>
-
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="text" class="form-control" id="InputMap" placeholder="ใส่ลิ้งค์จาก Google Map">
-                        </td>
-                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
-                                id="save_map" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
-                        </td>
-                    </tr> -->
                     <tr>
                         <td>รูปภาพ</td>
                         <td id="pico"></td>
@@ -119,8 +106,6 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- <button type="submit" class="btn btn-primary" onclick="update" id="save">Submit</button> -->
-
         </div>
     </div>
 
@@ -155,7 +140,6 @@
                 var data = doc.data();
                 var otopName = document.getElementById("travelName").innerHTML = data.fes_name;
                 var positive = document.getElementById("positive").innerHTML = data.fes_data;
-                // var travel_map = document.getElementById("travel_map").innerHTML = data.travel_map;
                 var jj = data.fes_pic;
                 for (let index = 0; index < jj.length; index++) {
                     let row = `
@@ -175,8 +159,6 @@
         // ---------------------------------------------------------------------
         var fesNamer = document.getElementById("InputTravel");
         var fes_r = document.getElementById("inputDetail");
-        // var travel_map_r = document.getElementById("InputMap");
-
         save.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", fesNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
@@ -329,8 +311,6 @@
 
             }
         });
-        // alert("File Uploaded ")
-        // ---------------------------------------------------------------------------
         // 55555555555555555555555555555555555555555555555555
         $(function () {
             $(":file").change(function () {
@@ -365,7 +345,6 @@
 
             }
         });
-        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     </script>
 </body>
 
