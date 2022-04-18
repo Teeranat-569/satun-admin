@@ -93,37 +93,37 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         // --------------------------------------------------------------------
-        const signout = document.querySelector("#signOut");
+        // const signout = document.querySelector("#signOut");
 
-        signout.addEventListener("click", function () {
-            Swal.fire({
-                title: 'คุณต้องการออกจากระบบใช่หรือไม่?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'ใช่',
-                denyButtonText: 'ไม่',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    e.preventDefault();
-                    auth.signOut();
-                    console.log('User signed out!');
-                    // firebase.auth().signOut().then(() => {
-                    window.location = "index.html";
+        // signout.addEventListener("click", function () {
+        //     Swal.fire({
+        //         title: 'คุณต้องการออกจากระบบใช่หรือไม่?',
+        //         showDenyButton: true,
+        //         showCancelButton: true,
+        //         confirmButtonText: 'ใช่',
+        //         denyButtonText: 'ไม่',
+        //         customClass: {
+        //             actions: 'my-actions',
+        //             cancelButton: 'order-1 right-gap',
+        //             confirmButton: 'order-2',
+        //             denyButton: 'order-3',
+        //         }
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             e.preventDefault();
+        //             auth.signOut();
+        //             console.log('User signed out!');
+        //             // firebase.auth().signOut().then(() => {
+        //             window.location = "index.html";
 
-                    // }).catch((error) => {
-                    //     // An error happened.
-                    // });
-                } else if (result.isDenied) {
-                    // Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
-                }
-            });
-        })
+        //             // }).catch((error) => {
+        //             //     // An error happened.
+        //             // });
+        //         } else if (result.isDenied) {
+        //             // Swal.fire('ข้อมูลไม่ได้ถูกลบ', '', 'info')
+        //         }
+        //     });
+        // })
         // *********************************************************
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {

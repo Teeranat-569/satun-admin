@@ -88,6 +88,18 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>ช่วงจัดงานประจำปี</td>
+                        <td id="fes_month" style=" display:block; width:500px; word-wrap:break-word;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;"></td>
+                        <td style="width: 500px;"><input type="text" class="form-control" id="Inputmonth"
+                                placeholder="ช่วงจัดงานประจำปี"></td>
+                        <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning" id="save_month"
+                                onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>รูปภาพ</td>
                         <td id="pico"></td>
                     </tr>
@@ -127,6 +139,8 @@
         const save = document.querySelector("#save");
         const save_pic = document.querySelector("#save_pic");
         const save_positive = document.querySelector("#save_positive");
+        const save_month= document.querySelector("#save_month");
+
         // const save_map = document.querySelector("#save_map");
 
         var docid = document.getElementById("data").innerHTML = localStorage.getItem("txtValue_fes");
@@ -140,6 +154,7 @@
                 var data = doc.data();
                 var otopName = document.getElementById("travelName").innerHTML = data.fes_name;
                 var positive = document.getElementById("positive").innerHTML = data.fes_data;
+                var month = document.getElementById("fes_month").innerHTML = data.fes_month;
                 var jj = data.fes_pic;
                 for (let index = 0; index < jj.length; index++) {
                     let row = `
@@ -159,6 +174,8 @@
         // ---------------------------------------------------------------------
         var fesNamer = document.getElementById("InputTravel");
         var fes_r = document.getElementById("inputDetail");
+        var fes_month_r = document.getElementById("Inputmonth");
+
         save.addEventListener("click", function () {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", fesNamer.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
@@ -231,6 +248,44 @@
 
             }
 
+
+        })
+        // /////////////////////////////////////////////////////////////////////////
+        save_month.addEventListener("click", function () {
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", fes_month_r.value);
+            console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
+
+
+            if (fes_month_r.value == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
+                })
+            } else {
+                var washingtonRef = db.collection("festival").doc(dataid);
+
+                // Set the "capital" field of the city 'DC'
+                return washingtonRef.update({
+                    fes_month: fes_month_r.value
+                })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        Swal.fire(
+                            'Good job!',
+                            'แก้ไขข้อมูลเรียบร้อย',
+                            'success'
+                        )
+                        location.reload();
+
+                    })
+                    .catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+
+            }
 
         })
         // -------------------------------------------------------------------------

@@ -51,7 +51,7 @@
 
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col">คะแนนรีวิว</th>
-                        <th scope="col" style="width: 300px;">ตวามคิดเห็น</th>
+                        <th scope="col" style="width: 300px;">ความคิดเห็น</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -129,7 +129,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire('ลบเรียบร้อย', '', 'success')
-                    db.collection("travel_waterfall").doc(docid).delete().then(() => {
+                    db.collection("comment").doc(docid).delete().then(() => {
                         console.log("Document successfully deleted!");
 
                         location.reload();
