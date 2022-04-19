@@ -88,13 +88,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>ข้อมูลร้านอาหาร</td>
+                        <td>เบอร์โทร</td>
                         <td id="phone"></td>
 
                     </tr>
                     <tr>
                         <td></td>
-                        <td><input type="text" class="form-control" id="inputphone" placeholder="ข้อมูลร้านอาหาร">
+                        <td><input type="text" class="form-control" id="inputphone" placeholder="เบอร์โทร">
                         </td>
                         <td style="text-align: center;"><button type="button" class="btn btn-sm btn-warning"
                                 id="save_phone" onclick=""><i class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button>
@@ -169,7 +169,7 @@
                 var storeName = document.getElementById("travelName").innerHTML = data.res_name;
                 var store_address = document.getElementById("positive").innerHTML = data.res_address;
                 var travel_map = document.getElementById("travel_map").innerHTML = data.res_map;
-                var phone = document.getElementById("phone").innerHTML = data.res_data;
+                var phone = document.getElementById("phone").innerHTML = data.res_phone;
                 var jj = data.res_pic;
                 for (let index = 0; index < jj.length; index++) {
                     let row = `
@@ -196,7 +196,7 @@
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
 
-            if (storeNamer.value == '') {
+            if (resNamer.value == '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
@@ -233,7 +233,7 @@
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
-            if (store_r.value == '') {
+            if (res_r.value == '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
@@ -270,7 +270,7 @@
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_map_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
-            if (store_map_r.value == '') {
+            if (res_map_r.value == '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
@@ -306,18 +306,18 @@
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaa", res_data_r.value);
             console.log("aaaaaaaaaaaaaaa-----aaaaaaaaaa", dataid);
 
-            if (store_phone_r.value == '') {
+            if (res_data_r.value == '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'ผิดพลาด',
                     text: 'โปรดกรอกข้อมูลเพื่อแก้ไข'
                 })
             } else {
-                var washingtonRef = db.collection("otop_store").doc(dataid);
+                var washingtonRef = db.collection("restaurant").doc(dataid);
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    res_data: res_res_r.value
+                    res_phone: res_data_r.value
                 })
                     .then(() => {
                         console.log("Document successfully updated!");
@@ -377,7 +377,7 @@
 
             function handleUpload(file) {
                 var storageRef = firebase.storage().ref();
-                const fileRef = storageRef.child("pp/" + file.name);
+                const fileRef = storageRef.child("restaurant/restaurant_" + file.name);
 
                 return fileRef.put(file).then(() => {
                     return fileRef.getDownloadURL().then(function (url) {
