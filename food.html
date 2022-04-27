@@ -17,6 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/3e2cc3644f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script>
         $(function () {
             $("#includedContent").load("./menu.html");
@@ -29,9 +32,9 @@
         font-family: 'Kanit', sans-serif;
     }
 
-    tr:hover {
+    /* tr:hover {
         background-color: #e7e2e2
-    }
+    } */
 </style>
 
 
@@ -39,31 +42,33 @@
     <div id="includedContent"></div>
 
     <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
-        <h2>ร้านอาหาร</h2>
-        <hr>
+
+       
         <div class="container">
             <div class="row">
-                <div class="col-md-10"></div>
-                <div class="col-md-2">
-                    <center>
+                <div class="col-md-8">
+                    <h2>ร้านอาหาร</h2>
+                </div>
+                <div class="col-md-4">
+                    <!-- <center> -->
                         <a class="btn btn-sm btn-primary" href="./add_food.html"><i
                                 class="fa-solid fa-plus"></i>&nbsp;&nbsp;
                             เพิ่มข้อมูล</a>
-                    </center>
+                    <!-- </center> -->
                 </div>
             </div>
-        </div>
-        <br>
+        </div> <hr>
+        <!-- <br> -->
         <div id="showdata">
-            <table style="width:100%" class="table table-bordered">
+            <table id="bb" style="width:100%" class="table table-bordered" data-page-length='4'>
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>
-                        <th scope="col" style="width: 200px;">ชื่อร้านอาหาร</th>
-                        <th scope="col" style="width: 500px;">ที่อยู่ร้านอาหาร</th>
+                        <!-- <th scope="col" style="width: 150px;">เลขที่เอกสาร</th> -->
+                        <th scope="col" style="width: 150px;">ชื่อร้านอาหาร</th>
+                        <th scope="col" style="width: 300px;">ที่อยู่ร้านอาหาร</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
-                        <th scope="col" style="width: 200px;">เบอร์โทร</th>
-                        <th scope="col" style="width: 150px;">พิกัด</th>
+                        <th scope="col" style="width: 150px;">เบอร์โทร</th>
+                        <th scope="col" style="width: 100px;">พิกัด</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -102,13 +107,13 @@
 
                     }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
-                            <td><div style="width: 200px;">${data.res_name}</div></td>
-                            <td><div style="width: 500px;">${data.res_address}</div></td>
+                        <!--    <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>-->
+                            <td><div style="width: 150px;">${data.res_name}</div></td>
+                            <td><div style="width: 300px;">${data.res_address}</div></td>
                          <!--   <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>-->
                          <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
-                         <td><div style="width: 200px;">${data.res_phone}</div></td>
-                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
+                         <td><div style="width: 150px;">${data.res_phone}</div></td>
+                            <td style="text-align: center;"><div style="width: 100px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" onclick="delData('${doc.id}','${data.res_name}')"><i
@@ -116,6 +121,14 @@
                       </tr>`;
                     let table = document.getElementById('myTable')
                     table.innerHTML += row
+                    $(document).ready(function () {
+                        $.fn.dataTable.ext.errMode = 'none';
+                        $('#bb').DataTable(
+                            {"dom": '<"dt-buttons"Bf><"clear">lirtp',
+                            "bLengthChange" : false,
+                        }
+                        );
+                    });
                 })
             })
             .catch(err => {

@@ -17,62 +17,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/3e2cc3644f.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    
     <script>
         $(function () {
             $("#includedContent").load("./menu.html");
         });
     </script>
-</head>
-
-<style>
-    body {
-        font-family: 'Kanit', sans-serif;
-    }
-
-    tr:hover {
-        background-color: #e7e2e2
-    }
-</style>
-
-
-<body>
-    <div id="includedContent"></div>
-
-    <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
-        <h2>สินค้า OTOP</h2>
-        <hr>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10"></div>
-                <div class="col-md-2">
-                    <center>
-                        <a class="btn btn-sm btn-primary" href="./add_otop.html"><i
-                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
-                            เพิ่มข้อมูล</a>
-                    </center>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div id="showdata">
-            <table style="width:100%" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่อสินค้า OTOP</th>
-                        <th scope="col" style="width: 500px;">ข้อมูลสินค้า</th>
-                        <th scope="col" style="text-align: center;">รูปภาพ</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                </tbody>
-
-            </table>
-        </div>
-       
-    </div>
-
     <script>
         var firebaseConfig = {
             apiKey: "AIzaSyCbdOZp1MfMSkTXl1ZDKIy8m6K32VuttD4",
@@ -89,19 +44,67 @@
         // -----------------------------------------------
         const db = firebase.firestore()
         const save = document.querySelector("#save");
+    </script>
+</head>
+
+<style>
+    body {
+        font-family: 'Kanit', sans-serif;
+    }
+
+    /* tr:hover {
+        background-color: #e7e2e2
+    } */
+</style>
+
+<body>
+    <div id="includedContent"></div>
+    <div style="margin-left:210px ; margin-top: 5px; padding: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                     <h2>สินค้า OTOP</h2>
+                </div>
+                <div class="col-md-8">
+                    <!-- <center> -->
+                        <a class="btn btn-sm btn-primary" href="./add_otop.html"><i
+                                class="fa-solid fa-plus"></i>&nbsp;&nbsp;
+                            เพิ่มข้อมูล</a>
+                    <!-- </center> -->
+                </div>
+            </div>
+        </div>  
+        <hr>
+        <!-- <br> -->
+        <div id="showdata">
+            <table id="bb" style="width:100%" class="table table-bordered" data-page-length='4'>
+                <thead>
+                    <tr>
+                        <!-- <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>   -->
+                        <th scope="col" style="width: 150px; text-overflow: ellipsis; ">ชื่อสินค้า OTOP</th>
+                        <th scope="col" style="width: 500px;">ข้อมูลสินค้า</th>
+                        <th scope="col" style="text-align: center;">รูปภาพ</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // ---------------------------------------------------------
         db.collection("otop")
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(doc => {
                     let data = doc.data();
                     var num;
-                    for (var i = 0; i < data.length; i++) {
-
-                        console.log('nnnnnnnnnnnnnn', i);
-
-                    }
                     let row = `<tr style="text-align: left;">
-                        <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>
+                      <!--  <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>-->
                             <td><div style="width: 150px; word-wrap:break-word;">${data.otop_name}</div></td>
                             <td><div style="width: 500px; word-wrap:break-word;">${data.data}</div></td>
                             <td style="text-align: center;"><div style="width: 200px;"><a href="${data.otop_pic}" target="_blank"><img src="${data.otop_pic}" width="200px"/></a></div></td>
@@ -111,15 +114,23 @@
                                 class="fa-solid fa-trash-can"></i>&nbsp;ลบ</button></td>
                       </tr>`;
                     let table = document.getElementById('myTable')
-                    table.innerHTML += row
+                    table.innerHTML += row;
+                    $(document).ready(function () {
+                        $.fn.dataTable.ext.errMode = 'none';
+                        $('#bb').DataTable(
+                            {"dom": '<"dt-buttons"Bf><"clear">lirtp',
+                            "bLengthChange" : false,
+                        }
+                        );
+                    });
                 })
             })
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-            // ////////////////////////////////////////////////////////
+        // ////////////////////////////////////////////////////////
 
-            function getData(docid) {
+        function getData(docid) {
             console.log('rerrrrrrrr---------------------rrr', docid);
             localStorage.setItem("txtValue_otop", docid);
             window.location = "./edit_otop.html";
@@ -140,11 +151,11 @@
                     denyButton: 'order-3',
                 }
             }).then((result) => {
-                if (result.isConfirmed) { 
+                if (result.isConfirmed) {
                     Swal.fire('ลบเรียบร้อย', '', 'success')
                     db.collection("otop").doc(docid).delete().then(() => {
                         console.log("Document successfully deleted!");
-                       
+
                         location.reload();
                     }).catch((error) => {
                         console.error("Error removing document: ", error);
