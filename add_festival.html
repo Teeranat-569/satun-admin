@@ -147,7 +147,7 @@
 
             function handleUpload(file) {
                 var storageRef = firebase.storage().ref();
-                const fileRef = storageRef.child("pp/" + file.name);
+                const fileRef = storageRef.child("festival/festival_" + file.name);
 
                 return fileRef.put(file).then(() => {
                     return fileRef.getDownloadURL().then(function (url) {

@@ -131,7 +131,7 @@
 
             Promise.all(uploadTasks).then(() => {
                 console.log(photoArray); // OUTPUTS THE ARRAY
-                const collectionRef = db.collection('restaurant');
+                const collectionRef = db.collection('restaurant/restaurant_');
                 collectionRef.add({
                     // otop_name: option.value,   // WORKS
                     res_name: InputTravel.value,
