@@ -132,6 +132,13 @@
                     text: 'โปรดอัพโหลดรูป'
                 })
             }
+            if (exampleFormControlSelect1.value == 'Choose...') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ผิดพลาด',
+                    text: 'กรุณาเลือกหมวดหมู่สถานที่ท่องเที่ยว'
+                })
+            }
             console.log(file);
             //dynamically set reference to the file name
             var thisRef = storageRef.child("travel/travel_" + file.name);
@@ -143,6 +150,9 @@
                     console.log("lllllllllllllllllllllllllllllll", inputDetail.value);
                     console.log("lllllllllllllllllllllllllllllll", inputMap.value);
                     console.log("lllllllllllllllllllllllllllllll", url);
+
+
+
                     if (exampleFormControlSelect1.value == 'ทะเล') {
                         db.collection("travel").doc().set({
                             travelName: InputTravel.value,
@@ -150,6 +160,7 @@
                             positive: inputDetail.value,
                             travel_map: inputMap.value,
                             pic: url,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
@@ -166,6 +177,8 @@
                             positive: inputDetail.value,
                             travel_map: inputMap.value,
                             pic: url,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
+
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
@@ -182,6 +195,8 @@
                             positive: inputDetail.value,
                             travel_map: inputMap.value,
                             pic: url,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
+
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
@@ -198,6 +213,8 @@
                             positive: inputDetail.value,
                             travel_map: inputMap.value,
                             pic: url,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
+
                         })
                             .then(() => {
                                 console.log("Document successfully written!");
@@ -207,32 +224,32 @@
                                 console.error("Error writing document: ", error);
                             });
                     }
-                    var splitList = InputTravel.value.split(' ');
-                    var indexList = [];
-                    for (var i = 0; i < splitList.length; i++) {
-                        for (var j = 0; j < splitList[i].length; j++) {
-                            indexList.push(splitList[i].substring(0, j).toLowerCase());
-                        }
-                    }
-                    console.log(indexList);
+                    // var splitList = InputTravel.value.split(' ');
+                    // var indexList = [];
+                    // for (var i = 0; i < splitList.length; i++) {
+                    //     for (var j = 0; j < splitList[i].length; j++) {
+                    //         indexList.push(splitList[i].substring(0, j).toLowerCase());
+                    //     }
+                    // }
+                    // console.log(indexList);
 
-                    db.collection("travel_name").doc().set({
-                        name: InputTravel.value,
-                        pic: url,
-                        searchIndex: indexList
-                    })
-                        .then(() => {
-                            console.log("Document successfully written!");
-                            Swal.fire(
-                                'Good job!',
-                                'บันทึกข้อมูลเรียบร้อย',
-                                'success'
-                            )
-                            location.reload();
-                        })
-                        .catch((error) => {
-                            console.error("Error writing document: ", error);
-                        });
+                    // db.collection("travel_name").doc().set({
+                    //     name: InputTravel.value,
+                    //     pic: url,
+                    //     searchIndex: indexList
+                    // })
+                    //     .then(() => {
+                    //         console.log("Document successfully written!");
+                    //         // Swal.fire(
+                    //         //     'Good job!',
+                    //         //     'บันทึกข้อมูลเรียบร้อย',
+                    //         //     'success'
+                    //         // )
+                    //         // location.reload();
+                    //     })
+                    //     .catch((error) => {
+                    //         console.error("Error writing document: ", error);
+                    //     });
                 });
             });
             Swal.fire(

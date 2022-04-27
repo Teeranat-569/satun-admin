@@ -49,8 +49,9 @@
             <table id="bb" style="width:100%" class="table table-bordered" data-page-length='3'>
                 <thead>
                     <tr>
-                        <!-- <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        <th scope="col">ชื่อสถานที่ท่องเที่ยว</th> -->
-                        <th scope="col" style="width: 300px;">ลักษณะเด่น</th>
+                        <!-- <th scope="col" style="width: 150px;">เลขที่เอกสาร</th>                        -->
+                <th scope="col">ชื่อสถานที่ท่องเที่ยว</th>         
+                <th scope="col" style="width: 300px;">ลักษณะเด่น</th>
                         <th scope="col">หมวดหมู่</th>
                         <th scope="col" style="text-align: center;">รูปภาพ</th>
                         <th scope="col">พิกัด</th>
@@ -95,7 +96,7 @@
                             <td><div style="width: 100px; word-wrap:break-word;">${data.travelName}</div></td>
                             <td><div style="width: 300px;word-wrap:break-word; ">${data.positive}</div></td>
                             <td style="text-align: center;"><div style="width: 50px;">${data.travelCate}</div></td>
-                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.pic}" target="_blank"><img src="${data.pic}" width="200px"/></a></div></td>
+                            <td style="text-align: center;"><div style="width: 150px;"><a href="${data.pic}" target="_blank"><img src="${data.pic}" width="150px"/></a></div></td>
                             <td style="text-align: center;"><div style="width: 100px;"><a href="${data.travel_map}" target="_blank"><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square" ></i>&nbsp;แก้ไข</button></td>

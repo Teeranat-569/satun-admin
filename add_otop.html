@@ -120,6 +120,7 @@
                         otop_name: InputTravel.value,
                         data: inputDetail.value,
                         otop_pic: url,
+                        createdAt : firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
                     })
                         .then(() => {
                             console.log("Document successfully written!");

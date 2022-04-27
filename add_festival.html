@@ -67,11 +67,13 @@
                     </div>
                     <br>
                     <div class="row">
+                        <h6 style="color: darkgray;">โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป</h6>
+                    </div>
+                    <div class="row">
                         <div class="col">
-                            <label for="exampleFormControlFile1">รูปภาพ: &nbsp;<span
-                                    style="color: red;">*</span></label>
+                            <label for="exampleFormControlFile1">รูปภาพ: &nbsp;<span style="color: red;">*</span> <input
+                                    type="file" name="files[]" id="files" multiple></label>
                             <div>
-                                <input type="file" name="files[]" id="files" multiple>
                                 <div id="myImg"></div>
                             </div>
                         </div>
@@ -127,7 +129,8 @@
                     fes_name: InputTravel.value,   // WORKS
                     fes_data: inputDetail.value,
                     fes_month: month.value,   // WORKS
-                    fes_pic: photoArray,    // SHOULD WORK NOW!
+                    fes_pic: photoArray,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
                 }).then(() => {
                     console.log("Document successfully written!");
                     Swal.fire(

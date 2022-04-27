@@ -74,6 +74,9 @@
                     </div>
                     <br>
                     <div class="row">
+                        <h6 style="color: darkgray;">โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป</h6>
+                    </div>
+                    <div class="row">
                         <div class="col">
                             <label for="files">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
                             <input type="file" class="form-control-file" id="files" multiple required>
@@ -132,12 +135,12 @@
                 collectionRef.add({
                     // otop_name: option.value,   // WORKS
                     res_name: InputTravel.value,
-
                     res_address: inputDetail.value,
                     res_phone: phone.value,
                     res_map: map.value,
                     // WORKS
                     res_pic: photoArray,    // SHOULD WORK NOW!
+                    createdAt : firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
                 }).then(() => {
                     console.log("Document successfully written!");
                     Swal.fire(
@@ -156,7 +159,7 @@
 
             function handleUpload(file) {
                 var storageRef = firebase.storage().ref();
-                const fileRef = storageRef.child("pp/" + file.name);
+                const fileRef = storageRef.child("restaurant/" + file.name);
 
                 return fileRef.put(file).then(() => {
                     return fileRef.getDownloadURL().then(function (url) {
@@ -199,7 +202,7 @@
         });
 
         function imageIsLoaded(e) {
-            $('#myImg').append('<img src=' + e.target.result + ' height="250px" width="400px">');
+            $('#myImg').append('<img src=' + e.target.result + '  width="400px">');
         };
 
         // --------------------------------------------------------------------

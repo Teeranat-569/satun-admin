@@ -60,7 +60,7 @@
         </div> <hr>
         <!-- <br> -->
         <div id="showdata">
-            <table id="bb" style="width:100%" class="table table-bordered" data-page-length='4'>
+            <table id="bb" style="width:100%" class="table table-bordered" data-page-length='5'>
                 <thead>
                     <tr>
                         <!-- <th scope="col" style="width: 150px;">เลขที่เอกสาร</th> -->
@@ -108,11 +108,11 @@
                     }
                     let row = `<tr style="text-align: left;">
                         <!--    <td><div style="width: 150px; word-wrap:break-word;">${doc.id}</div></td>-->
-                            <td><div style="width: 150px;">${data.res_name}</div></td>
-                            <td><div style="width: 300px;">${data.res_address}</div></td>
+                            <td><div style="width: 150px; word-wrap:break-word; ">${data.res_name}</div></td>
+                            <td><div style="width: 300px; word-wrap:break-word;">${data.res_address}</div></td>
                          <!--   <td style="text-align: center;"><div style="width: 200px;"><a href="${data.res_pic}" target="_blank"><img src="${data.res_pic}" width="200px"/></a></div></td>-->
                          <td><button type="button" class="btn btn-sm btn-primary" onclick="getImg('${doc.id}')" id="btn"><i class="fa-solid fa-images"></i>&nbsp;ดูรูปภาพ</button></td>
-                         <td><div style="width: 150px;">${data.res_phone}</div></td>
+                         <td><div style="width: 150px; word-wrap:break-word;">${data.res_phone}</div></td>
                             <td style="text-align: center;"><div style="width: 100px;"><a href="${data.store_map} target="_blank""><i class="fa-solid fa-map"></i><br>Google Map</a></div></td>
                             <td><button type="button" class="btn btn-sm btn-warning" onclick="getData('${doc.id}')" id="btn"><i
                                 class="fa-solid fa-pen-to-square"></i>&nbsp;แก้ไข</button></td>

@@ -80,7 +80,7 @@
                         </div>
                         <div class="col">
                             <label for="facebook">Facebook&nbsp;</label>
-                            <input type="text" class="form-control" id="facebook" placeholder="Facebook" >
+                            <input type="text" class="form-control" id="facebook" placeholder="Facebook">
                         </div>
                     </div>
 
@@ -92,7 +92,7 @@
                                 <input type="text" class="form-control" id="website" placeholder="Website">
                             </div>
                         </div>
-                       
+
                     </div>
                     <br>
                     <div class="row">
@@ -102,7 +102,11 @@
                         </div>
                     </div>
                     <br>
+
                     <div class="row">
+                        <div class="row">
+                            <h6 style="color: darkgray;">โปรดอัพโหลดรูปภาพ 3 รูปขึ้นไป</h6>
+                        </div>
                         <div class="col">
                             <label for="files">รูปภาพ: &nbsp;<span style="color: red;">*</span></label>
                             <input type='file' class="form-control-file" id="files" multiple required>
@@ -112,6 +116,7 @@
                             </div>
                         </div>
                     </div>
+
                     <br>
                 </div>
             </form>
@@ -161,7 +166,7 @@
             .catch(err => {
                 console.log(`Error: ${err}`)
             });
-        
+
         // 55555555555555555555555555555555555555555555555555555555555555555555555555555
         function uploadImageAsPromise(imageFile) {
             // return new Promise(function (resolve, reject) {
@@ -190,6 +195,7 @@
                     store_website: website.value,
                     // WORKS
                     store_pic: photoArray,    // SHOULD WORK NOW!
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(), // SHOULD WORK NOW!
                 }).then(() => {
                     console.log("Document successfully written!");
                     Swal.fire(
@@ -276,9 +282,9 @@
                 var uid = user.uid;
                 console.log("Signin ", uid);                // ...
             } else {
-                console.log("User is signed out");       
+                console.log("User is signed out");
                 window.location = "index.html";
-         // ...
+                // ...
             }
         });
     </script>
